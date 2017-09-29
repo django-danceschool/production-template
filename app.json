@@ -1,0 +1,20 @@
+{
+  "name": "Django Dance School",
+  "repository": "https://github.com/django-danceschool/django-danceschool",
+  "env": {
+    "SECRET_KEY": {
+      "description": "A secret key for verifying the integrity of signed cookies.",
+      "generator": "secret"
+    },
+  },
+  "formation": {},
+  "addons": [
+    "heroku-redis",
+    "heroku-postgresql"
+  ],
+  "buildpacks": [
+    {
+      "url": "https://github.com/heroku/heroku-buildpack-python"
+    }
+  ],
+}
