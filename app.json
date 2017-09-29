@@ -6,11 +6,24 @@
       "description": "A secret key for verifying the integrity of signed cookies.",
       "generator": "secret"
     },
+    "PAYPAL_MODE": {
+      "description": "Are you using real or monopoly money? valid values are 'live' or 'sandbox'",
+      "value": "live"
+    },
+    "DEBUG": {
+      "description": "django debug variable, do not set for production",
+      "value": "0"
+    },
+    "S3_USE_SIGV4": {
+      "description": "ensure that v4 of s3 protocol is used",
+      "value": "1"
+    }
   },
   "formation": {},
   "addons": [
     "heroku-redis",
-    "heroku-postgresql"
+    "heroku-postgresql",
+    "sendgrid",
   ],
   "buildpacks": [
     {

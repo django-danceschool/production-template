@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
 import os
+from os import environ
 import dj_database_url
 import dj_email_url
 
@@ -18,6 +19,11 @@ import dj_email_url
 # they do not need to be specified here directly.
 # You may always override these defaults below.
 from danceschool.default_settings import *
+
+def boolify(s):
+    """translate environment variables to booleans"""
+    s = s.trim().lower()
+    return int(s) if s.isdigit() else s == 'true'
 
 # This line is required by Django CMS to determine default URLs
 # for pages.
@@ -32,10 +38,10 @@ PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY')
+SECRET_KEY = environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = (os.environ.get('DEBUG', 'False') == 'True')
+DEBUG = boolify(environ.get('DEBUG', False))
 
 # SECURITY WARNING: ALLOWED_HOSTS must be updated for production
 # to permit public access of the site.  Because *.herokuapp.com
@@ -211,17 +217,6 @@ DATABASES = {
 # Change 'default' database configuration with $DATABASE_URL.
 DATABASES['default'].update(dj_database_url.config(conn_max_age=500))
 
-# Set Email using the dj-email-url app, which parses $EMAIL_URL
-email_config = dj_email_url.config()
-EMAIL_FILE_PATH = email_config.get('EMAIL_FILE_PATH')
-EMAIL_HOST_USER = email_config.get('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = email_config.get('EMAIL_HOST_PASSWORD')
-EMAIL_HOST = email_config.get('EMAIL_HOST')
-EMAIL_PORT = email_config.get('EMAIL_PORT')
-EMAIL_BACKEND = email_config.get('EMAIL_BACKEND')
-EMAIL_USE_TLS = email_config.get('EMAIL_USE_TLS')
-EMAIL_USE_SSL = email_config.get('EMAIL_USE_SSL')
-
 # Password validation
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators
 
@@ -275,37 +270,81 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 # AWS must be configured in the environment variables.  If it is
 # not configured, then the project will default to local storage.
 if (
-    os.environ.get('AWS_STORAGE_BUCKET_NAME') and
-    os.environ.get('AWS_SECRET_ACCESS_KEY') and
-    os.environ.get('AWS_STORAGE_BUCKET_NAME')
+    'AWS_STORAGE_BUCKET_NAME' in environ
+    and 'AWS_SECRET_ACCESS_KEY' in environ
+    and 'AWS_STORAGE_BUCKET_NAME' in environ
 ):
     DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-    AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
-    AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
-    AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
+    AWS_ACCESS_KEY_ID = environ.get('AWS_ACCESS_KEY_ID')
+    AWS_SECRET_ACCESS_KEY = environ.get('AWS_SECRET_ACCESS_KEY')
+    AWS_STORAGE_BUCKET_NAME = environ.get('AWS_STORAGE_BUCKET_NAME')
 
 # Payment processor details are loaded here, if they have been added
 # as environment variables
 
 # Paypal
-PAYPAL_MODE = os.environ.get('PAYPAL_MODE', 'sandbox')
-PAYPAL_CLIENT_ID = os.environ.get('PAYPAL_CLIENT_ID')
-PAYPAL_CLIENT_SECRET = os.environ.get('PAYPAL_CLIENT_SECRET')
+PAYPAL_MODE = environ.get('PAYPAL_MODE', 'sandbox')
+PAYPAL_CLIENT_ID = environ.get('PAYPAL_CLIENT_ID')
+PAYPAL_CLIENT_SECRET = environ.get('PAYPAL_CLIENT_SECRET')
 
 if PAYPAL_MODE and PAYPAL_CLIENT_ID and PAYPAL_CLIENT_SECRET:
     INSTALLED_APPS.append('danceschool.payments.paypal')
 
 # Square
-SQUARE_LOCATION_ID = os.environ.get('SQUARE_LOCATION_ID')
-SQUARE_APPLICATION_ID = os.environ.get('SQUARE_APPLICATION_ID')
-SQUARE_ACCESS_TOKEN = os.environ.get('SQUARE_ACCESS_TOKEN')
+SQUARE_LOCATION_ID = environ.get('SQUARE_LOCATION_ID')
+SQUARE_APPLICATION_ID = environ.get('SQUARE_APPLICATION_ID')
+SQUARE_ACCESS_TOKEN = environ.get('SQUARE_ACCESS_TOKEN')
 
 if SQUARE_LOCATION_ID and SQUARE_ACCESS_TOKEN and SQUARE_APPLICATION_ID:
     INSTALLED_APPS.append('danceschool.payments.square')
 
 # Stripe
-STRIPE_PUBLIC_KEY = os.environ.get('STRIPE_PUBLIC_KEY')
-STRIPE_PRIVATE_KEY = os.environ.get('STRIPE_PRIVATE_KEY')
+STRIPE_PUBLIC_KEY = environ.get('STRIPE_PUBLIC_KEY')
+STRIPE_PRIVATE_KEY = environ.get('STRIPE_PRIVATE_KEY')
 
 if STRIPE_PUBLIC_KEY and STRIPE_PRIVATE_KEY:
     INSTALLED_APPS.append('danceschool.payments.stripe')
+
+# Set Email using either sendgrid or dj_email_url which parses $EMAIL_URL
+if (
+    'SENDGRID_API_KEY' in environ
+    and 'SENDGRID_PASSWORD' in environ
+    and 'SENDGRID_USERNAME' in environ
+):
+    EMAIL_BACKEND = 'sgbackend.SendGridBackend'
+    SENDGRID_API_KEY = environ.get('SENDGRID_API_KEY')
+    SENDGRID_PASSWORD = environ.get('SENDGRID_PASSWORD')
+    SENDGRID_USERNAME = environ.get('SENDGRID_USERNAME')
+
+elif 'EMAIL_URL' in environ:
+    email_config = dj_email_url.config()
+    EMAIL_FILE_PATH = email_config.get('EMAIL_FILE_PATH')
+    EMAIL_HOST_USER = email_config.get('EMAIL_HOST_USER')
+    EMAIL_HOST_PASSWORD = email_config.get('EMAIL_HOST_PASSWORD')
+    EMAIL_HOST = email_config.get('EMAIL_HOST')
+    EMAIL_PORT = email_config.get('EMAIL_PORT')
+    EMAIL_BACKEND = email_config.get('EMAIL_BACKEND')
+    EMAIL_USE_TLS = email_config.get('EMAIL_USE_TLS')
+    EMAIL_USE_SSL = email_config.get('EMAIL_USE_SSL')
+
+## Useful settings if you are running on heroku
+#: The unique identifier for the application. eg. "9daa2797-e49b-4624-932f-ec3f9688e3da"
+HEROKU_APP_ID = environ.get('HEROKU_APP_ID', None)
+
+#: The application name. eg. "example-app"
+HEROKU_APP_NAME = environ.get('HEROKU_APP_NAME', None)
+
+#: The dyno identifier. eg. "1vac4117-c29f-4312-521e-ba4d8638c1ac"
+HEROKU_DYNO_ID = environ.get('HEROKU_DYNO_ID', None)
+
+#: The identifier for the current release. eg. "v42"
+HEROKU_SLUG_ID = environ.get('HEROKU_SLUG_ID', None)
+
+#: The commit hash for the current release. eg. "2c3a0b24069af49b3de35b8e8c26765c1dba9ff0"
+HEROKU_SLUG_COMMIT = environ.get('HEROKU_SLUG_COMMIT', None)
+
+#: The time and date the release was created. eg. "2015/04/02 18:00:42"
+HEROKU_RELEASE_CREATED_AT = environ.get('HEROKU_RELEASE_CREATED_AT', None)
+
+#: The description of the current release. eg. "Deploy 2c3a0b2"
+HEROKU_RELEASE_DESCRIPTION = environ.get('HEROKU_RELEASE_DESCRIPTION', None)
