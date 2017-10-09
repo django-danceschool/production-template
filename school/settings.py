@@ -14,6 +14,8 @@ import os
 from os import environ
 import dj_database_url
 import dj_email_url
+from logging.handlers import SysLogHandler
+
 
 from huey import RedisHuey
 from redis import ConnectionPool
