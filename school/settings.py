@@ -15,6 +15,9 @@ from os import environ
 import dj_database_url
 import dj_email_url
 
+from huey import RedisHuey
+from redis import ConnectionPool
+
 # This line imports a large number of defaults, so that
 # they do not need to be specified here directly.
 # You may always override these defaults below.
@@ -22,7 +25,7 @@ from danceschool.default_settings import *
 
 
 def boolify(s):
-    if isinstance(s,bool):
+    if isinstance(s,bool) or isinstance(s,int):
         return s
     """translate environment variables to booleans"""
     s = s.strip().lower()
@@ -258,6 +261,10 @@ USE_L10N = True
 USE_TZ = True
 
 
+# Huey setup (use Redis by default)
+pool = ConnectionPool.from_url(environ.get('REDIS_URL'))
+HUEY = RedisHuey('danceschool', connection_pool=pool)
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
@@ -274,9 +281,9 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 # AWS must be configured in the environment variables.  If it is
 # not configured, then the project will default to local storage.
 if (
+    'AWS_STORAGE_BUCKET_NAME' in environ and
+    'AWS_SECRET_ACCESS_KEY' in environ and
     'AWS_STORAGE_BUCKET_NAME' in environ
-    and 'AWS_SECRET_ACCESS_KEY' in environ
-    and 'AWS_STORAGE_BUCKET_NAME' in environ
 ):
     DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
     AWS_ACCESS_KEY_ID = environ.get('AWS_ACCESS_KEY_ID')
