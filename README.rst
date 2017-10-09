@@ -36,7 +36,7 @@ Button-Based Deployment
 -----------------------
 
 .. image:: https://www.herokucdn.com/deploy/button.svg
-   :target https://heroku.com/deploy
+   :target: https://heroku.com/deploy
 
 
 1. Click the button above and follow the instructions to deploy your app.  This will take several minutes.
