@@ -20,10 +20,14 @@ import dj_email_url
 # You may always override these defaults below.
 from danceschool.default_settings import *
 
+
 def boolify(s):
+    if isinstance(s,bool):
+        return s
     """translate environment variables to booleans"""
     s = s.trim().lower()
     return int(s) if s.isdigit() else s == 'true'
+
 
 # This line is required by Django CMS to determine default URLs
 # for pages.

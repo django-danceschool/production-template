@@ -52,9 +52,9 @@ You will need:
 
    ``heroku login``
 
-3. Create a new Heroku app (follow the prompts on the command line):
+3. Create a new Heroku app:
 
-   ``heroku create``
+   ``heroku create <your-app-name>``
 
 4. Push your project to Heroku, where it will now be deployed:
 
