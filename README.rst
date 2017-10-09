@@ -32,7 +32,19 @@ Heroku's pricing is based on hours of use for these dynos, as well as their size
 Initial Heroku Setup
 ====================
 
-Manual Method (Recommended for Production Use)
+Button-Based Deployment
+-----------------------
+
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+
+1. Click the button above and follow the instructions to deploy your app.  This will take several minutes.
+2. From your app in thr Heroku dashboard, click the button at the top right labeled "More" and select "Run console."  In the field that pops up, type in "bash" to access a command line console for your app.
+3. At the command-line console, run the following, and follow the prompts at the command line to create a superuser and perform your school's initial setup:
+   - Create a superuser: ``python manage.py createsuperuser``
+   - Setup the school with initial pages and sensible defaults: ``python manage.py setupschool``
+4. Navigate to https://<your-app>.herokuapp.com/ and enjoy!
+
+Manual Method (Recommended for Customization)
 ----------------------------------------------
 
 You will need:
@@ -56,7 +68,7 @@ You will need:
 
    ``heroku create <your-app-name>``
 
-4. Push your project to Heroku, where it will now be deployed:
+4. Push your project to Heroku, where it will now be deployed (this will take a few minutes the first time that you do it):
 
    ``git push heroku master``
 
