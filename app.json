@@ -4,7 +4,8 @@
   "env": {
     "SECRET_KEY": {
       "description": "A secret key for verifying the integrity of signed cookies.",
-      "generator": "secret"
+      "generator": "secret",
+      "required": true,
     },
     "PAYPAL_MODE": {
       "description": "Are you using real or monopoly money? valid values are 'live' or 'sandbox'",
@@ -30,4 +31,7 @@
       "url": "https://github.com/heroku/heroku-buildpack-python"
     }
   ],
+  "scripts": {
+    "postdeploy": "python manage.py migrate --noinput"
+  }
 }
