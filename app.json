@@ -13,7 +13,7 @@
     },
     "DEBUG": {
       "description": "django debug variable, do not set for production",
-      "value": "0"
+      "value": "False"
     },
     "S3_USE_SIGV4": {
       "description": "ensure that v4 of s3 protocol is used",

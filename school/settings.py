@@ -25,7 +25,7 @@ def boolify(s):
     if isinstance(s,bool):
         return s
     """translate environment variables to booleans"""
-    s = s.trim().lower()
+    s = s.strip().lower()
     return int(s) if s.isdigit() else s == 'true'
 
 
