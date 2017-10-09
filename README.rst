@@ -35,7 +35,9 @@ Initial Heroku Setup
 Button-Based Deployment
 -----------------------
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+.. image:: https://www.herokucdn.com/deploy/button.svg
+   :target https://heroku.com/deploy
+
 
 1. Click the button above and follow the instructions to deploy your app.  This will take several minutes.
 2. From your app in thr Heroku dashboard, click the button at the top right labeled "More" and select "Run console."  In the field that pops up, type in "bash" to access a command line console for your app.
