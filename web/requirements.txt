@@ -1,0 +1,6 @@
+Django>=1.11,<2.0
+django-danceschool>=0.5.1
+redis==2.10.3
+django-redis==4.3.0
+gunicorn==19.3.0
+psycopg2>=2.7

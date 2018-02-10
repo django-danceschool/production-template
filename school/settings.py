@@ -363,9 +363,9 @@ if STRIPE_PUBLIC_KEY and STRIPE_PRIVATE_KEY:
 
 # Set Email using either sendgrid or dj_email_url which parses $EMAIL_URL
 if (
-    'SENDGRID_API_KEY' in environ
-    and 'SENDGRID_PASSWORD' in environ
-    and 'SENDGRID_USERNAME' in environ
+    'SENDGRID_API_KEY' in environ and
+    'SENDGRID_PASSWORD' in environ and
+    'SENDGRID_USERNAME' in environ
 ):
     EMAIL_BACKEND = 'sgbackend.SendGridBackend'
     SENDGRID_API_KEY = environ.get('SENDGRID_API_KEY')
@@ -383,7 +383,21 @@ elif 'EMAIL_URL' in environ:
     EMAIL_USE_TLS = email_config.get('EMAIL_USE_TLS')
     EMAIL_USE_SSL = email_config.get('EMAIL_USE_SSL')
 
-## Useful settings if you are running on heroku
+# Use Redis for caching
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": environ.get('REDIS_URL'),
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    }
+}
+
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+SESSION_CACHE_ALIAS = "default"
+
+#: Useful settings if you are running on heroku
 #: The unique identifier for the application. eg. "9daa2797-e49b-4624-932f-ec3f9688e3da"
 HEROKU_APP_ID = environ.get('HEROKU_APP_ID', None)
 
