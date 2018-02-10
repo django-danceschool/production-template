@@ -1,6 +1,6 @@
 web:
   restart: always
-  build: ./web/
+  build: ./docker/web/
   expose:
     - "8000"
   links:
@@ -8,14 +8,14 @@ web:
     - redis:redis
   env_file: env.default
   volumes:
-    - ./web:/data/web
+    - ./docker/web:/data/web
     - ./school:/data/web/school
   working_dir: /data/web/school
   command: /usr/bin/gunicorn school.wsgi:application -w 2 -b :8000
 
 nginx:
   restart: always
-  build: ./nginx/
+  build: ./docker/nginx/
   ports:
     - "80:80"
   volumes_from:
@@ -29,7 +29,7 @@ postgres:
   volumes_from:
     - data
   volumes:
-    - ./postgres/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+    - ./docker/postgres/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
     - ./backups/postgresql:/backup
   env_file:
     - env.default
