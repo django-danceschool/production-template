@@ -18,6 +18,3 @@ RUN apk del -r python3-dev postgresql
 # Prepare
 COPY . /data/web/
 RUN mkdir -p mydjango/static/admin
-
-# Set up default environment file
-RUN /bin/sh -c "./build_environment.sh"

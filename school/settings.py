@@ -25,14 +25,20 @@ from redis import ConnectionPool
 # You may always override these defaults below.
 from danceschool.default_settings import *
 
-
 def boolify(s):
+    ''' translate environment variables to booleans '''
     if isinstance(s,bool) or isinstance(s,int):
         return s
-    """translate environment variables to booleans"""
     s = s.strip().lower()
     return int(s) if s.isdigit() else s == 'true'
 
+def get_secret(secret_name):
+    ''' For Docker Swarms, the secret key and Postgres info are kept in secrets, not in the environment. '''
+    try:
+        with open('/run/secrets/{0}'.format(secret_name), 'r') as secret_file:
+            return secret_file.read()
+    except IOError:
+        return None
 
 # This line is required by Django CMS to determine default URLs
 # for pages.
@@ -47,7 +53,7 @@ PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = environ.get('SECRET_KEY')
+SECRET_KEY = get_secret('django_secret_key') or environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = boolify(environ.get('DEBUG', False))
@@ -223,8 +229,9 @@ DATABASES = {
     }
 }
 
-# Change 'default' database configuration with $DATABASE_URL.
-DATABASES['default'].update(dj_database_url.config(conn_max_age=500))
+# Change 'default' database configuration with $DATABASE_URL or the Docker secret.
+DB_URL = get_secret('postgres_url') or environ.get('DATABASE_URL')
+DATABASES['default'].update(dj_database_url.parse(DB_URL,conn_max_age=500))
 
 # Password validation
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators

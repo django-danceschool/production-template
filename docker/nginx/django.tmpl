@@ -1,6 +1,15 @@
 server {
+    listen 80;
+    server_name ${SERVER_NAME};
 
-    listen ${LISTEN_PORT};
+    # Redirect all traffic to https
+    return 301 https://${ESC}host${ESC}request_uri;
+
+}
+
+server {
+
+    listen 443 ssl;
     server_name ${SERVER_NAME};
     charset utf-8;
 
@@ -8,11 +17,29 @@ server {
         alias /data/web/school/static;
     }
 
+    location /media {
+        alias /data/web/school/media;
+    }
+
     location / {
         proxy_pass http://web:8000;
         proxy_set_header Host ${ESC}host;
         proxy_set_header X-Real-IP ${ESC}remote_addr;
         proxy_set_header X-Forwarded-For ${ESC}proxy_add_x_forwarded_for;
+
+        # This helps to prevent DoS attacks.
+        if (${ESC}http_user_agent = "") { return 403; }
+
+        # Set max upload size
+        client_max_body_size 10M;
+
+        # Try to serve static files from nginx, no point in making an
+        # *application* server like Unicorn/Rainbows! serve static files.
+        if (!-f ${ESC}request_filename) {
+            proxy_pass http://nssdjango_app_server;
+            break;
+        }
+
     }
 
 }

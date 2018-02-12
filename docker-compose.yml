@@ -1,50 +1,84 @@
-web:
-  restart: always
-  build: ./docker/web/
-  expose:
-    - "8000"
-  links:
-    - postgres:postgres
-    - redis:redis
-  env_file: env.default
-  volumes:
-    - ./docker/web:/data/web
-    - ./school:/data/web/school
-  working_dir: /data/web/school
-  command: /usr/bin/gunicorn school.wsgi:application -w 2 -b :8000
+version: "3"
+services:
+  web:
+    build: ./docker/web/
+    depends-on:
+      - postgres
+      - redis
+    deploy:
+      replicas: 1
+      restart-policy:
+        condition: any
+    env_file: env
+    secrets:
+      - postgres_url
+      - django-secret_key
+    volumes:
+      - ./docker/web:/data/web
+      - ./school:/data/web/school
+    working_dir: /data/web/school
+    expose:
+      - "8000"
+    command: /usr/bin/gunicorn school.wsgi:application -w 2 -b :8000
 
-nginx:
-  restart: always
-  build: ./docker/nginx/
-  ports:
-    - "80:80"
-  volumes_from:
-    - web
-  links:
-    - web:web
+  nginx:
+    build: ./docker/nginx/
+    depends-on:
+      - web
+    deploy:
+      replicas: 1
+      restart-policy:
+        condition: any
+    ports:
+      - "80:80"
+    configs:
+      - nginx_conf
 
-postgres:
-  restart: always
-  image: postgres:latest
-  volumes_from:
-    - data
-  volumes:
-    - ./docker/postgres/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
-    - ./backups/postgresql:/backup
-  env_file:
-    - env.default
-  expose:
-    - "5432"
+  postgres:
+    image: postgres:latest
+    deploy:
+      replicas: 1
+      restart-policy:
+        condition: any
+    volumes:
+      - ./docker/postgres/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+      - ./backups/postgresql:/backup
+      - data:/var/lib/postgresql
+    env_file:
+      - env
+    secrets:
+      - postgres_user
+      - postgres_password
+    expose:
+      - "5432"
 
-redis:
-  restart: always
-  image: redis:latest
-  expose:
-    - "6379"
+  redis:
+    image: redis:latest
+    deploy:
+      replicas: 1
+      restart-policy:
+        condition: any
+    expose:
+      - "6379"
 
-data:
-  restart: always
-  image: alpine
-  volumes:
-    - /var/lib/postgresql
-  command: "true"
+  huey:
+    build: ./docker/web/
+    depends-on:
+      - postgres
+      - redis
+    deploy:
+      replicas: 1
+      restart-policy:
+        condition: any
+    env_file: env
+    secrets:
+      - postgres_url
+      - django-secret_key
+    volumes:
+      - ./docker/web:/data/web
+      - ./school:/data/web/school
+    working_dir: /data/web/school
+    command: python manage.py run_huey
+
+volumes:
+  data:

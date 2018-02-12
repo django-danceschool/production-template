@@ -1,0 +1,5 @@
+DB_NAME=danceschool_web
+DB_SERVICE=postgres
+DB_PORT=5432
+DEBUG=False
+REDIS_URL=redis://redis:6379/0
