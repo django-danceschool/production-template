@@ -1,45 +1,31 @@
-version: "3"
+version: "3.3"
 services:
   web:
-    build: ./docker/web/
-    depends-on:
-      - postgres
-      - redis
+    image: danceschool_web:latest
     deploy:
       replicas: 1
-      restart-policy:
-        condition: any
     env_file: env
     secrets:
       - postgres_url
-      - django-secret_key
+      - django_secret_key
     volumes:
       - ./docker/web:/data/web
       - ./school:/data/web/school
     working_dir: /data/web/school
-    expose:
-      - "8000"
     command: /usr/bin/gunicorn school.wsgi:application -w 2 -b :8000
 
   nginx:
-    build: ./docker/nginx/
-    depends-on:
-      - web
+    image: danceschool_nginx:latest
     deploy:
       replicas: 1
-      restart-policy:
-        condition: any
     ports:
       - "80:80"
-    configs:
-      - nginx_conf
+      - "443:443"
 
   postgres:
     image: postgres:latest
     deploy:
       replicas: 1
-      restart-policy:
-        condition: any
     volumes:
       - ./docker/postgres/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
       - ./backups/postgresql:/backup
@@ -49,31 +35,20 @@ services:
     secrets:
       - postgres_user
       - postgres_password
-    expose:
-      - "5432"
 
   redis:
     image: redis:latest
     deploy:
       replicas: 1
-      restart-policy:
-        condition: any
-    expose:
-      - "6379"
 
   huey:
-    build: ./docker/web/
-    depends-on:
-      - postgres
-      - redis
+    image: danceschool_web:latest
     deploy:
       replicas: 1
-      restart-policy:
-        condition: any
     env_file: env
     secrets:
       - postgres_url
-      - django-secret_key
+      - django_secret_key
     volumes:
       - ./docker/web:/data/web
       - ./school:/data/web/school
@@ -82,3 +57,13 @@ services:
 
 volumes:
   data:
+
+secrets:
+  postgres_user:
+    external: true
+  postgres_password:
+    external: true
+  postgres_url:
+    external: true
+  django_secret_key:
+    external: true
