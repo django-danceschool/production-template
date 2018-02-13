@@ -9,7 +9,8 @@ DEFAULT_IP="$(ifconfig eth0 | grep "inet addr" | cut -d ':' -f 2 | cut -d ' ' -f
 read -p "Enter desired Swarm IP address [${DEFAULT_IP}]: " IP
 IP=${IP:-$DEFAULT_IP}
 
-read -p "Enter your server's domain and subdomain name(s), separated by spaces. [${DEFAULT_IP}]: "
+read -p "Enter your server's domain and subdomain name(s), separated by spaces. [${DEFAULT_IP}]: " SERVER_NAME
+SERVER_NAME=${SERVER_NAME:-$DEFAULT_IP}
 
 # Initialize the Docker Swarm
 docker swarm init --advertise-addr $IP

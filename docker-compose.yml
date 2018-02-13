@@ -53,7 +53,7 @@ services:
       - ./docker/web:/data/web
       - ./school:/data/web/school
     working_dir: /data/web/school
-    command: python manage.py run_huey
+    command: python3 manage.py run_huey
 
 volumes:
   data:
