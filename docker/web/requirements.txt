@@ -4,3 +4,12 @@ redis==2.10.3
 django-redis==4.3.0
 gunicorn==19.3.0
 psycopg2>=2.7
+boto3>=1.4.7
+dj-database-url>=0.4.2
+dj-email-url>=0.0.10
+whitenoise>=3.2
+squareconnect>=2.2.1
+stripe>=1.62.0
+paypalrestsdk>=1.12.0
+peewee>=2.10.1
+django-storages>=1.6.5

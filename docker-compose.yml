@@ -8,11 +8,13 @@ services:
     secrets:
       - postgres_url
       - django_secret_key
-    volumes:
-      - ./docker/web:/data/web
-      - ./school:/data/web/school
-    working_dir: /data/web/school
-    command: /usr/bin/gunicorn school.wsgi:application -w 2 -b :8000
+    working_dir: /data/web
+    # command: gunicorn school.wsgi:application -w 2 -b :8000
+    command: top
+    networks:
+      danceschool_default:
+        aliases:
+          - web
 
   nginx:
     image: danceschool_nginx:latest
@@ -21,25 +23,38 @@ services:
     ports:
       - "80:80"
       - "443:443"
+    networks:
+      danceschool_default:
+        aliases:
+          - nginx
 
   postgres:
     image: postgres:latest
+    hostname: postgres
     deploy:
       replicas: 1
     volumes:
-      - ./docker/postgres/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
       - ./backups/postgresql:/backup
-      - data:/var/lib/postgresql
+      - danceschool_postgres:/var/lib/postgresql/data
     env_file:
       - env
     secrets:
       - postgres_user
       - postgres_password
+    networks:
+      danceschool_default:
+        aliases:
+          - postgres
 
   redis:
     image: redis:latest
+    hostname: redis
     deploy:
       replicas: 1
+    networks:
+      danceschool_default:
+        aliases:
+          - redis
 
   huey:
     image: danceschool_web:latest
@@ -52,11 +67,22 @@ services:
     volumes:
       - ./docker/web:/data/web
       - ./school:/data/web/school
-    working_dir: /data/web/school
-    command: python3 manage.py run_huey
+    working_dir: /data/web
+    command: top
+    # command: python3 manage.py run_huey
+    networks:
+      danceschool_default:
+        aliases:
+          - huey
+
 
 volumes:
-  data:
+  danceschool_postgres:
+  django_static_data:
+
+networks:
+  danceschool_default:
+    driver: overlay
 
 secrets:
   postgres_user:

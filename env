@@ -1,4 +1,4 @@
-DB_NAME=danceschool_web
+DB_NAME=danceschool_postgres
 DB_SERVICE=postgres
 DB_PORT=5432
 DEBUG=False

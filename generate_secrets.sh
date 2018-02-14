@@ -16,15 +16,15 @@ SERVER_NAME=${SERVER_NAME:-$DEFAULT_IP}
 docker swarm init --advertise-addr $IP
 
 # Generate the DB username and passwords as secrets
-POSTRES_USER=$(openssl rand -base64 20) 
-POSTGRES_PASSWORD=$(openssl rand -base64 20)
+POSTGRES_USER=$(< /dev/urandom tr -dc A-Za-z0-9 | head -c${1:-32})
+POSTGRES_PASSWORD==$(< /dev/urandom tr -dc A-Za-z0-9 | head -c${1:-32})
 
 echo "${POSTGRES_USER}" | docker secret create postgres_user -
 echo "${POSTGRES_PASSWORD}" | docker secret create postgres_password -
-echo "postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@localhost:5432/danceschool_web" | docker secret create postgres_url -
+echo "postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/danceschool_web" | docker secret create postgres_url -
 
 # Generate a Django secret key
-openssl rand -base64 30 | docker secret create django_secret_key -
+echo $(< /dev/urandom tr -dc A-Za-z0-9 | head -c${1:-32}) | docker secret create django_secret_key -
 
 SSL_SET="false"
 
@@ -82,5 +82,15 @@ do
     esac
 done
 
+# Build the Nginx and Gunicorn images so that they can be deployed to the stack
 docker build -t danceschool_nginx ./docker/nginx
-docker build -t danceschool_web ./docker/web
+docker build -f ./docker/web/Dockerfile -t danceschool_web .
+
+# Create the persistent Postgres volume so that we can initialize the database
+docker volume create danceschool_postgres
+docker run -d --name danceschool_postgres_temp -v danceschool_postgres:/var/lib/postgresql/data postgres:latest
+sleep 5;
+docker exec danceschool_postgres_temp psql -U postgres -c "CREATE USER ${POSTGRES_USER} PASSWORD '${POSTGRES_PASSWORD}'"
+docker exec danceschool_postgres_temp psql -U postgres -c "CREATE DATABASE danceschool_postgres OWNER ${POSTGRES_USER}"
+docker stop danceschool_postgres_temp
+docker rm danceschool_postgres_temp
