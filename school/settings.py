@@ -38,7 +38,7 @@ def get_secret(secret_name):
     ''' For Docker Swarms, the secret key and Postgres info are kept in secrets, not in the environment. '''
     try:
         with open('/run/secrets/{0}'.format(secret_name), 'r') as secret_file:
-            return secret_file.read()
+            return secret_file.read().rstrip('\n')
     except IOError:
         return None
 
@@ -66,7 +66,7 @@ DEBUG = boolify(environ.get('DEBUG', False))
 # is currently allowed, this project is insecure by default.
 # It is STRONGLY recommended that you update this to limit
 # to your own domain before making your site public.
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'testserver', '.herokuapp.com']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'testserver', environ.get('ALLOWED_HOST') or '']
 
 
 # Application definition
@@ -344,6 +344,8 @@ if (
     AWS_ACCESS_KEY_ID = environ.get('AWS_ACCESS_KEY_ID')
     AWS_SECRET_ACCESS_KEY = environ.get('AWS_SECRET_ACCESS_KEY')
     AWS_STORAGE_BUCKET_NAME = environ.get('AWS_STORAGE_BUCKET_NAME')
+else:
+    MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'media')
 
 # Payment processor details are loaded here, if they have been added
 # as environment variables

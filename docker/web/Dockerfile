@@ -18,6 +18,3 @@ RUN apk del -r python3-dev postgresql
 
 # Prepare
 COPY ./school/ /data/web/school/
-RUN mkdir -p /data/web/site_media
-RUN mkdir -p /data/web/media
-RUN mkdir -p /data/web/smedia

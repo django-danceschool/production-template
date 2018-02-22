@@ -1,5 +1,14 @@
 DB_NAME=danceschool_postgres
 DB_SERVICE=postgres
 DB_PORT=5432
-DEBUG=False
 REDIS_URL=redis://redis:6379/0
+
+# SECURITY WARNING: ALLOWED_HOST must be updated for production to permit public access of the site.
+# Because * is currently allowed, this project is insecure by default. It is STRONGLY recommended
+# that you update this to limit to your own domain before making your site public.
+ALLOWED_HOST=*
+
+# SECURITY WARNING: DEBUG should be set to False for production to avoid disclosure of environment
+# information and project code.  It is STRONGLY recommended that you update this to False before
+# making your site public.
+DEBUG=True

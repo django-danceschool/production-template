@@ -4,7 +4,7 @@ services:
     image: danceschool_web:latest
     deploy:
       replicas: 1
-    env_file: env
+    env_file: ../env
     volumes:
       - staticfiles:/data/web/school/staticfiles
       - media:/data/web/school/media
@@ -13,29 +13,11 @@ services:
       - postgres_url
       - django_secret_key
     working_dir: /data/web
-    command: gunicorn school.wsgi:application -w 2 -b :8000
+    command: top
     networks:
       danceschool_default:
         aliases:
           - web
-
-  nginx:
-    image: danceschool_nginx:latest
-    deploy:
-      replicas: 1
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - staticfiles:/data/web/staticfiles
-      - media:/data/web/media
-    secrets:
-      - site.crt
-      - site.key
-    networks:
-      danceschool_default:
-        aliases:
-          - nginx
 
   postgres:
     image: postgres:latest
@@ -43,10 +25,10 @@ services:
     deploy:
       replicas: 1
     volumes:
-      - ./backups/postgresql:/backup
+      - ../backups/postgresql:/backup
       - postgres:/var/lib/postgresql/data
     env_file:
-      - env
+      - ../env
     networks:
       danceschool_default:
         aliases:
@@ -61,25 +43,6 @@ services:
       danceschool_default:
         aliases:
           - redis
-
-  huey:
-    image: danceschool_web:latest
-    deploy:
-      replicas: 1
-    env_file: env
-    secrets:
-      - postgres_url
-      - django_secret_key
-    volumes:
-      - staticfiles:/data/web/school/staticfiles
-      - media:/data/web/school/media
-      - private_media:/data/web/school/smedia
-    working_dir: /data/web
-    command: python3 manage.py run_huey
-    networks:
-      danceschool_default:
-        aliases:
-          - huey
 
 
 volumes:
