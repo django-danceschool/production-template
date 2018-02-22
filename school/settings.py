@@ -307,7 +307,7 @@ LANGUAGE_CODE = 'en'
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
-TIME_ZONE = 'America/New_York'
+TIME_ZONE = environ.get('TIME_ZONE','America/New_York')
 
 USE_I18N = True
 
@@ -346,6 +346,7 @@ if (
     AWS_STORAGE_BUCKET_NAME = environ.get('AWS_STORAGE_BUCKET_NAME')
 else:
     MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'media')
+    MEDIA_URL = '/media/'
 
 # Payment processor details are loaded here, if they have been added
 # as environment variables

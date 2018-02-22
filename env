@@ -1,3 +1,4 @@
+# These probably don't need to be changed.
 DB_NAME=danceschool_postgres
 DB_SERVICE=postgres
 DB_PORT=5432
@@ -11,4 +12,36 @@ ALLOWED_HOST=*
 # SECURITY WARNING: DEBUG should be set to False for production to avoid disclosure of environment
 # information and project code.  It is STRONGLY recommended that you update this to False before
 # making your site public.
-DEBUG=True
+DEBUG=False
+
+# Set your time zone. Choices can be found here:
+# http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
+TIME_ZONE=America/New_York
+
+# If you wish to use a service such as Gmail to send emails, then you will want to uncomment
+# this line and fill in the email URL here.
+# e.g. for Gmail "smtp://yourgmailaccount:yourpassword@smtp.gmail.com:587/?tls=True"
+# EMAIL_URL=smtp://yourgmailaccount:yourpassword@smtp.gmail.com:587/?tls=True
+
+# Alternatively, if you are using the popular Sendgrid service, uncomment the following lines
+# and enter your credentials.
+# SENDGRID_API_KEY=
+# SENDGRID_PASSWORD=
+# SENDGRID_USERNAME=
+
+# If you are using Paypal, then you will need to uncomment the following lines and
+# enter your API keys.
+# PAYPAL_MODE=live
+# PAYPAL_CLIENT_ID=
+# PAYPAL_CLIENT_SECRET=
+
+# If you are using Stripe, then you will need to uncomment the following lines and
+# enter your API keys.
+# STRIPE_PUBLIC_KEY=
+# STRIPE_PRIVATE_KEY=
+
+# If you are using Square, then you will need to uncomment the following lines and
+# enter your Location ID and API keys.
+# SQUARE_LOCATION_ID=
+# SQUARE_APPLICATION_ID=
+# SQUARE_ACCESS_TOKEN=

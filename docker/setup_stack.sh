@@ -137,7 +137,7 @@ create_ssl_secrets () {
     # Require an SSL certificate either by having a file provided, or by generating one using OpenSSL
     echo -e 'Please select a source for an SSL certificate:\n'
 
-    options=("Provide an SSL Certificate" "Generate Using OpenSSL" "Quit")
+    options=("Provide an SSL Certificate" "Generate Using OpenSSL (for testing only)" "Quit")
     select opt in "${options[@]}"
     do
         case $opt in
@@ -236,7 +236,7 @@ build_nginx () {
     fi
 
     echo "Preparing to build Nginx image."
-    docker build -t danceschool_nginx ${BASH_SOURCE%/*}/nginx
+    docker build --no-cache -t danceschool_nginx ${BASH_SOURCE%/*}/nginx
     echo "Nginx image built successfully."
 }
 
@@ -255,14 +255,14 @@ build_web () {
     fi
 
     echo "Preparing to build Django image. This may take a few minutes."
-    docker build -f ${BASH_SOURCE%/*}/web/Dockerfile -t danceschool_web .
+    docker build --no-cache -f ${BASH_SOURCE%/*}/web/Dockerfile -t danceschool_web .
     echo "Django image built successfully."
 }
 
 
 database_setup () {
     echo -e "Deploying a shell-only stack for initial setup of the database.\n"
-    docker stack deploy -c ${BASH_SOURCE%/*}/docker-shell-compose.yml danceschool_shellonly
+    docker stack deploy -c ${BASH_SOURCE%/*}/docker-compose-shellonly.yml danceschool_shellonly
     sleep 3;
 
     # Get the name of the active web container so that we can run migrations if requested.
@@ -272,8 +272,17 @@ database_setup () {
     if [[ $REPLY =~ ^[Nn]$ ]] ; then
         echo 
     else
-        echo "Initializing database migrations. This may take a minute."
+        echo -e "\nInitializing database migrations. This may take a minute."
         docker exec $CONTAINER_NAME python3 manage.py migrate
+        echo
+    fi
+
+    read -p "Collect static files for Nginx to serve? [Y/n] " -n 1 -r
+    if [[ $REPLY =~ ^[Nn]$ ]] ; then
+        echo 
+    else
+        echo -e "\nCollecting static files. This may take a minute."
+        docker exec $CONTAINER_NAME python3 manage.py collectstatic --no-input
         echo
     fi
 
@@ -281,6 +290,7 @@ database_setup () {
     if [[ $REPLY =~ ^[Nn]$ ]] ; then
         echo 
     else
+        echo
         docker exec -it $CONTAINER_NAME python3 manage.py createsuperuser
         echo
     fi
@@ -289,6 +299,7 @@ database_setup () {
     if [[ $REPLY =~ ^[Nn]$ ]] ; then
         echo 
     else
+        echo
         docker exec -it $CONTAINER_NAME python3 manage.py setupschool
         echo
     fi
