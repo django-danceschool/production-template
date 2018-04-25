@@ -164,7 +164,7 @@ create_ssl_secrets () {
                 break
 
                 ;;
-            "Generate Using OpenSSL")
+            "Generate Using OpenSSL (for testing only)")
                 echo -e "\nGenerating Certificate using OpenSSL\n\n"
                 mkdir ./openssl
 
