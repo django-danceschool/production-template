@@ -312,6 +312,9 @@ database_setup () {
 
 echo -e "Welcome to the Docker stack initialization script.\n\n"
 
+# Fix UTF-8 issue on Macs
+export LC_CTYPE=C
+
 swarm_initialize
 create_volumes
 check_postgres_secrets
