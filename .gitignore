@@ -87,3 +87,9 @@ ENV/
 
 # Rope project settings
 .ropeproject
+
+# Backups
+backups/postgresql/*
+!backups/postgresql/.gitkeep
+backups/web/*
+!backups/web/.gitkeep
