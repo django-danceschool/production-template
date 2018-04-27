@@ -1,0 +1,78 @@
+version: "3.3"
+services:
+  web:
+    image: danceschool_web:latest
+    deploy:
+      replicas: 1
+    env_file: ../env
+    volumes:
+      - staticfiles:/data/web/school/staticfiles
+      - media:/data/web/school/media
+      - private_media:/data/web/school/smedia
+    secrets:
+      - postgres_url
+      - django_secret_key
+    working_dir: /data/web
+    command: top
+    networks:
+      danceschool_default:
+        aliases:
+          - web
+
+  postgres:
+    image: postgres:latest
+    hostname: postgres
+    deploy:
+      replicas: 1
+    volumes:
+      - ../backups/postgresql:/backup
+      - postgres:/var/lib/postgresql/data
+    env_file:
+      - ../env
+    networks:
+      danceschool_default:
+        aliases:
+          - postgres
+
+  redis:
+    image: redis:latest
+    hostname: redis
+    deploy:
+      replicas: 1
+    networks:
+      danceschool_default:
+        aliases:
+          - redis
+
+
+volumes:
+  postgres:
+    external:
+      name: danceschool_postgres
+  staticfiles:
+    external:
+      name: danceschool_staticfiles
+  media:
+    external:
+      name: danceschool_media
+  private_media:
+    external:
+      name: danceschool_privatemedia
+
+networks:
+  danceschool_default:
+    driver: overlay
+
+secrets:
+  postgres_user:
+    external: true
+  postgres_password:
+    external: true
+  postgres_url:
+    external: true
+  django_secret_key:
+    external: true
+  site.crt:
+    external: true
+  site.key:
+    external: true

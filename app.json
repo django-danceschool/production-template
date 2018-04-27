@@ -18,6 +18,10 @@
     "S3_USE_SIGV4": {
       "description": "ensure that v4 of s3 protocol is used",
       "value": "1"
+    },
+    "ALLOWED_HOST": {
+      "description": "Enter your site's hostname (e.g. myschool.com). SECURITY WARNING: ALLOWED_HOST must be updated for production to permit public access of the site.  Because *.herokuapp.com is currently allowed, this project is insecure by default. It is STRONGLY recommended that you update this to limit to your own domain before making your site public.",
+      "value": ".herokuapp.com",
     }
   },
   "formation": {},

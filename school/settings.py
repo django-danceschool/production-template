@@ -27,11 +27,20 @@ from danceschool.default_settings import *
 
 
 def boolify(s):
+    ''' translate environment variables to booleans '''
     if isinstance(s,bool) or isinstance(s,int):
         return s
-    """translate environment variables to booleans"""
     s = s.strip().lower()
     return int(s) if s.isdigit() else s == 'true'
+
+
+def get_secret(secret_name):
+    ''' For Docker Swarms, the secret key and Postgres info are kept in secrets, not in the environment. '''
+    try:
+        with open('/run/secrets/{0}'.format(secret_name), 'r') as secret_file:
+            return secret_file.read().rstrip('\n')
+    except IOError:
+        return None
 
 
 # This line is required by Django CMS to determine default URLs
@@ -47,7 +56,7 @@ PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = environ.get('SECRET_KEY')
+SECRET_KEY = get_secret('django_secret_key') or environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = boolify(environ.get('DEBUG', False))
@@ -57,7 +66,7 @@ DEBUG = boolify(environ.get('DEBUG', False))
 # is currently allowed, this project is insecure by default.
 # It is STRONGLY recommended that you update this to limit
 # to your own domain before making your site public.
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'testserver', '.herokuapp.com']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'testserver', environ.get('ALLOWED_HOST') or '']
 
 
 # Application definition
@@ -223,8 +232,9 @@ DATABASES = {
     }
 }
 
-# Change 'default' database configuration with $DATABASE_URL.
-DATABASES['default'].update(dj_database_url.config(conn_max_age=500))
+# Change 'default' database configuration with $DATABASE_URL or the Docker secret.
+DB_URL = get_secret('postgres_url') or environ.get('DATABASE_URL')
+DATABASES['default'].update(dj_database_url.config(default=DB_URL,conn_max_age=500))
 
 # Password validation
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators
@@ -297,7 +307,7 @@ LANGUAGE_CODE = 'en'
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
-TIME_ZONE = 'America/New_York'
+TIME_ZONE = environ.get('TIME_ZONE','America/New_York')
 
 USE_I18N = True
 
@@ -334,6 +344,9 @@ if (
     AWS_ACCESS_KEY_ID = environ.get('AWS_ACCESS_KEY_ID')
     AWS_SECRET_ACCESS_KEY = environ.get('AWS_SECRET_ACCESS_KEY')
     AWS_STORAGE_BUCKET_NAME = environ.get('AWS_STORAGE_BUCKET_NAME')
+else:
+    MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'media')
+    MEDIA_URL = '/media/'
 
 # Payment processor details are loaded here, if they have been added
 # as environment variables
@@ -363,9 +376,9 @@ if STRIPE_PUBLIC_KEY and STRIPE_PRIVATE_KEY:
 
 # Set Email using either sendgrid or dj_email_url which parses $EMAIL_URL
 if (
-    'SENDGRID_API_KEY' in environ
-    and 'SENDGRID_PASSWORD' in environ
-    and 'SENDGRID_USERNAME' in environ
+    'SENDGRID_API_KEY' in environ and
+    'SENDGRID_PASSWORD' in environ and
+    'SENDGRID_USERNAME' in environ
 ):
     EMAIL_BACKEND = 'sgbackend.SendGridBackend'
     SENDGRID_API_KEY = environ.get('SENDGRID_API_KEY')
@@ -383,7 +396,21 @@ elif 'EMAIL_URL' in environ:
     EMAIL_USE_TLS = email_config.get('EMAIL_USE_TLS')
     EMAIL_USE_SSL = email_config.get('EMAIL_USE_SSL')
 
-## Useful settings if you are running on heroku
+# Use Redis for caching
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": environ.get('REDIS_URL'),
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    }
+}
+
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+SESSION_CACHE_ALIAS = "default"
+
+#: Useful settings if you are running on heroku
 #: The unique identifier for the application. eg. "9daa2797-e49b-4624-932f-ec3f9688e3da"
 HEROKU_APP_ID = environ.get('HEROKU_APP_ID', None)
 
