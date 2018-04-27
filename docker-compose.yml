@@ -9,6 +9,7 @@ services:
       - staticfiles:/data/web/school/staticfiles
       - media:/data/web/school/media
       - private_media:/data/web/school/smedia
+      - ./backups/web:/backup
     secrets:
       - postgres_url
       - django_secret_key
