@@ -9,12 +9,12 @@ COPY manage.py /data/web
 # Setup
 RUN apk update
 RUN apk upgrade
-RUN apk add --update python3 python3-dev postgresql-client postgresql-dev build-base gettext zlib-dev jpeg-dev libffi-dev
+RUN apk add --update python3 python3-dev postgresql-client postgresql-dev build-base gettext zlib-dev jpeg-dev libffi-dev git
 RUN pip3 install --upgrade pip
 RUN pip3 install -r requirements.txt
 
 # Clean
-RUN apk del -r python3-dev postgresql
+RUN apk del -r python3-dev postgresql git
 
 # Prepare
 COPY ./school/ /data/web/school/
