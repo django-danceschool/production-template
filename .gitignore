@@ -93,3 +93,6 @@ backups/postgresql/*
 !backups/postgresql/.gitkeep
 backups/web/*
 !backups/web/.gitkeep
+
+# Visual Studio Code settings
+.vscode/
