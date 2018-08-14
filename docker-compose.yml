@@ -4,7 +4,9 @@ services:
     image: danceschool_web:latest
     deploy:
       replicas: 1
-    env_file: env
+    env_file: 
+      - env.default
+      - env.web
     volumes:
       - staticfiles:/data/web/school/staticfiles
       - media:/data/web/school/media
@@ -19,15 +21,21 @@ services:
       danceschool_default:
         aliases:
           - web
+    depends_on:
+      - postgres
 
   nginx:
     image: danceschool_nginx:latest
-    deploy:
-      replicas: 1
+    labels:
+      - com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy
     ports:
       - "80:80"
       - "443:443"
     volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - certs:/etc/nginx/certs:ro
+      - vhost.d:/etc/nginx/vhost.d
+      - html:/usr/share/nginx/html
       - staticfiles:/data/web/staticfiles
       - media:/data/web/media
     secrets:
@@ -37,6 +45,24 @@ services:
       danceschool_default:
         aliases:
           - nginx
+    depends_on:
+      - web
+
+  letsencrypt-companion:
+    image: jrcs/letsencrypt-nginx-proxy-companion
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - certs:/etc/nginx/certs:rw
+      - vhost.d:/etc/nginx/vhost.d
+      - html:/usr/share/nginx/html
+    environment:
+      - NGINX_PROXY_CONTAINER=nginx
+    networks:
+      danceschool_default:
+        aliases:
+          - letsencrypt
+    depends_on:
+      - nginx
 
   postgres:
     image: postgres:latest
@@ -47,7 +73,7 @@ services:
       - ./backups/postgresql:/backup
       - postgres:/var/lib/postgresql/data
     env_file:
-      - env
+      - env.default
     networks:
       danceschool_default:
         aliases:
@@ -61,28 +87,29 @@ services:
     networks:
       danceschool_default:
         aliases:
-          - redis
-
-  huey:
-    image: danceschool_web:latest
-    deploy:
-      replicas: 1
-    env_file: env
-    secrets:
-      - postgres_url
-      - django_secret_key
-    volumes:
-      - staticfiles:/data/web/school/staticfiles
-      - media:/data/web/school/media
-      - private_media:/data/web/school/smedia
-    working_dir: /data/web
-    command: python3 manage.py run_huey
-    networks:
-      danceschool_default:
-        aliases:
-          - huey
-
-
+          - redis 
+   huey:
+     image: danceschool_web:latest
+     deploy:
+       replicas: 1
+     env_file: 
+      - env.default
+     secrets:
+       - postgres_url
+       - django_secret_key
+     volumes:
+       - staticfiles:/data/web/school/staticfiles
+       - media:/data/web/school/media
+       - private_media:/data/web/school/smedia
+     working_dir: /data/web
+     command: python3 manage.py run_huey
+     networks:
+       danceschool_default:
+         aliases:
+           - huey
+     depends_on:
+       - postgres
+ 
 volumes:
   postgres:
     external:
@@ -96,6 +123,15 @@ volumes:
   private_media:
     external:
       name: danceschool_privatemedia
+  certs:
+    external:
+      name: danceschool_certs
+  vhost.d:
+    external:
+      name: danceschool_vhost.d
+  html:
+    external:
+      name: danceschool_html
 
 networks:
   danceschool_default:
