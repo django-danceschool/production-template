@@ -88,27 +88,28 @@ services:
       danceschool_default:
         aliases:
           - redis 
-   huey:
-     image: danceschool_web:latest
-     deploy:
-       replicas: 1
-     env_file: 
-      - env.default
-     secrets:
-       - postgres_url
-       - django_secret_key
-     volumes:
-       - staticfiles:/data/web/school/staticfiles
-       - media:/data/web/school/media
-       - private_media:/data/web/school/smedia
-     working_dir: /data/web
-     command: python3 manage.py run_huey
-     networks:
-       danceschool_default:
-         aliases:
-           - huey
-     depends_on:
-       - postgres
+
+  huey:
+    image: danceschool_web:latest
+    deploy:
+      replicas: 1
+    env_file: 
+     - env.default
+    secrets:
+      - postgres_url
+      - django_secret_key
+    volumes:
+      - staticfiles:/data/web/school/staticfiles
+      - media:/data/web/school/media
+      - private_media:/data/web/school/smedia
+    working_dir: /data/web
+    command: python3 manage.py run_huey
+    networks:
+      danceschool_default:
+        aliases:
+          - huey
+    depends_on:
+      - postgres
  
 volumes:
   postgres:
