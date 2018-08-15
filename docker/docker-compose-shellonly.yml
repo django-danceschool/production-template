@@ -4,7 +4,7 @@ services:
     image: danceschool_web:latest
     deploy:
       replicas: 1
-    env_file: ../env
+    env_file: ../env.default
     volumes:
       - staticfiles:/data/web/school/staticfiles
       - media:/data/web/school/media
@@ -28,7 +28,7 @@ services:
       - ../backups/postgresql:/backup
       - postgres:/var/lib/postgresql/data
     env_file:
-      - ../env
+      - ../env.default
     networks:
       danceschool_default:
         aliases:
