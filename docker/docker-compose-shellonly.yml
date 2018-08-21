@@ -27,8 +27,7 @@ services:
     volumes:
       - ../backups/postgresql:/backup
       - postgres:/var/lib/postgresql/data
-    env_file:
-      - ../env.default
+    env_file: ../env.default
     networks:
       danceschool_default:
         aliases:
@@ -71,8 +70,4 @@ secrets:
   postgres_url:
     external: true
   django_secret_key:
-    external: true
-  site.crt:
-    external: true
-  site.key:
     external: true

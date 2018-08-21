@@ -69,8 +69,7 @@ services:
     volumes:
       - ./backups/postgresql:/backup
       - postgres:/var/lib/postgresql/data
-    env_file:
-      - env.default
+    env_file: env.default
     networks:
       danceschool_default:
         aliases:

@@ -119,10 +119,8 @@ check_secret_key () {
     if [ $KEY_EXISTS -ge 1 ] ; then
         read -p "Django secret key already exists. Replace it? [y/N] " -n 1 -r
         if [[ $REPLY =~ ^[Yy]$ ]] ; then
-            echo
             docker secret rm django_secret_key
         else
-            echo
             return
         fi
     else
@@ -177,8 +175,8 @@ create_ssl_certs () {
                 fi
 
                 # Add provided SSL information into Docker volume
-                docker exec check_ssl cp $PROVIDED_CERT_KEY_PATH /certs/nginx-provided.key
-                docker exec check_ssl cp $PROVIDED_CERT_PATH /certs/nginx-provided.crt
+                docker cp $PROVIDED_CERT_KEY_PATH check_ssl:/certs/nginx-provided.key
+                docker cp $PROVIDED_CERT_PATH check_ssl:/certs/nginx-provided.crt
 
                 # Ready to break out of the loop
                 break
@@ -191,8 +189,8 @@ create_ssl_certs () {
                 # This command will provide the usual prompts for information needed to generate the certificate
                 openssl req -x509 -nodes -days 3650 -newkey rsa:2048 -keyout ./openssl/nginx-provided.key -out ./openssl/nginx-provided.crt
 
-                # Copy the certificat
-                docker exec check_ssl cp -r .openssl/* /data
+                # Copy the certificate
+                docker cp ./openssl check_ssl:/certs
                 rm -r ./openssl
 
                 # Ready to break out of the loop
@@ -217,8 +215,8 @@ check_ssl_certs () {
     docker run --rm -d --name check_ssl -v danceschool_certs:/certs alpine top
 
     # Check if a provided certificate exists.
-    SSL_CERT_EXISTS=$(docker exec check_ssl grep -c "/certs/nginx-provided\.crt")
-    SSL_KEY_EXISTS=$(docker exec check_ssl grep -c "/certs/nginx-provided\.key")
+    SSL_CERT_EXISTS=$(docker exec check_ssl ls /certs | grep -c "nginx-provided\.crt")
+    SSL_KEY_EXISTS=$(docker exec check_ssl ls /certs | grep -c "nginx-provided\.key")
 
     if [ $SSL_CERT_EXISTS -lt 1 ] || [ $SSL_KEY_EXISTS -lt 1 ] ; then
         if [ $SSL_CERT_EXISTS -ge 1 ] ; then
@@ -233,7 +231,7 @@ check_ssl_certs () {
 
         echo -e 'Existing SSL credentials not found or are incomplete.\n'
         SSL_CHANGED=1
-        create_ssl_certss
+        create_ssl_certs
 
     else
         read -p "Existing provided SSL credentials found. Replace them? [y/N] " -n 1 -r
@@ -248,7 +246,7 @@ check_ssl_certs () {
     fi
 
     # Close the container that has been used to check and copy SSL certs
-    docker kill check_ssl
+    docker stop check_ssl
 }
 
 build_nginx () {
