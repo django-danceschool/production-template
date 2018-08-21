@@ -31,6 +31,7 @@ create_volumes () {
     docker volume create danceschool_staticfiles
     docker volume create danceschool_media
     docker volume create danceschool_privatemedia
+    docker volume create danceschool_certs
 }
 
 create_postgres_secrets () {
@@ -132,15 +133,34 @@ check_secret_key () {
 
 }
 
-create_ssl_secrets () {
+create_ssl_certs () {
+
+    # Disable LetsEncrypt unless it is chosen.
+    LETSENCRYPT_ENABLED=0
 
     # Require an SSL certificate either by having a file provided, or by generating one using OpenSSL
     echo -e 'Please select a source for an SSL certificate:\n'
 
-    options=("Provide an SSL Certificate" "Generate Using OpenSSL (for testing only)" "Quit")
+    options=("Use built-in LetsEncrypt (recommended for production)" "Provide an SSL Certificate" "Generate Using OpenSSL (for testing only)" "Quit")
     select opt in "${options[@]}"
     do
         case $opt in
+            "Use built-in LetsEncrypt (recommended for production)")
+
+                echo -e "\nPLEASE NOTE: In order to use LetsEncrypt for an automatically-generated SSL "
+                echo -e "certificate, you must edit the following items in the file env.web:"
+                echo -e "\n - VIRTUAL_HOST\n - LETSENCRYPT_HOST\n - LETSENCRYPT_EMAIL.\n"
+                echo -e "\nAdditionally, note that you MUST have a publicly accessible website hostname "
+                echo -e "(e.g. yourdomain.com), or else LetsEncrypt will fail, and you will need to run "
+                echo -e "this script again."
+
+                LETSENCRYPT_ENABLED=1
+
+                # Ready to break out of the loop
+                break
+
+                ;;
+
             "Provide an SSL Certificate")
                 echo -e "\n"
 
@@ -156,9 +176,9 @@ create_ssl_secrets () {
                     continue
                 fi
 
-                # Add provided SSL information as Docker secrets
-                docker secret create site.key $PROVIDED_CERT_KEY_PATH
-                docker secret create site.crt $PROVIDED_CERT_PATH
+                # Add provided SSL information into Docker volume
+                docker exec check_ssl cp $PROVIDED_CERT_KEY_PATH /certs/nginx-provided.key
+                docker exec check_ssl cp $PROVIDED_CERT_PATH /certs/nginx-provided.crt
 
                 # Ready to break out of the loop
                 break
@@ -169,11 +189,10 @@ create_ssl_secrets () {
                 mkdir ./openssl
 
                 # This command will provide the usual prompts for information needed to generate the certificate
-                openssl req -x509 -nodes -days 3650 -newkey rsa:2048 -keyout ./openssl/nginx-selfsigned.key -out ./openssl/nginx-selfsigned.crt
+                openssl req -x509 -nodes -days 3650 -newkey rsa:2048 -keyout ./openssl/nginx-provided.key -out ./openssl/nginx-provided.crt
 
-                # Add provided SSL information as Docker secrets and remove the OpenSSL files
-                docker secret create site.key ./openssl/nginx-selfsigned.key
-                docker secret create site.crt ./openssl/nginx-selfsigned.crt
+                # Copy the certificat
+                docker exec check_ssl cp -r .openssl/* /data
                 rm -r ./openssl
 
                 # Ready to break out of the loop
@@ -189,42 +208,53 @@ create_ssl_secrets () {
     done
 }
 
-check_ssl_secrets () {
-    # Get the list of existing secrets to see if new ones need to be created/updated
-    EXISTING_SECRET_LIST="$(docker secret ls)"
+check_ssl_certs () {
+    # If the SSL certificates changed, then the Nginx image must be rebuilt.
+    SSL_CHANGED=0
 
-    # These need to be checked individually first in case some are specified and others are not.
-    SSL_CERT_EXISTS=$(grep -c "site\.crt" <<< $EXISTING_SECRET_LIST)
-    SSL_KEY_EXISTS=$(grep -c "site\.key" <<< $EXISTING_SECRET_LIST)
+    # Begin a container that will be used to check for the existence of SSL certificates and
+    # that will replace them if necessary.
+    docker run --rm -d --name check_ssl -v danceschool_certs:/certs alpine top
+
+    # Check if a provided certificate exists.
+    SSL_CERT_EXISTS=$(docker exec check_ssl grep -c "/certs/nginx-provided\.crt")
+    SSL_KEY_EXISTS=$(docker exec check_ssl grep -c "/certs/nginx-provided\.key")
 
     if [ $SSL_CERT_EXISTS -lt 1 ] || [ $SSL_KEY_EXISTS -lt 1 ] ; then
         if [ $SSL_CERT_EXISTS -ge 1 ] ; then
-            docker secret rm site.crt
+            docker exec check_ssl rm /certs/nginx-provided.crt
         fi
 
         if [ $SSL_KEY_EXISTS -ge 1 ] ; then
-            docker secret rm site.key
+            docker exec check_ssl rm /certs/nginx-provided.key
         fi
 
+        # TODO: Check if LetsEncrypt is currently being used here.
+
         echo -e 'Existing SSL credentials not found or are incomplete.\n'
-        create_ssl_secrets
+        SSL_CHANGED=1
+        create_ssl_certss
 
     else
-        read -p "Existing SSL credentials found. Replace them? [y/N] " -n 1 -r
+        read -p "Existing provided SSL credentials found. Replace them? [y/N] " -n 1 -r
         if [[ $REPLY =~ ^[Yy]$ ]] ; then
-            docker secret rm site.crt
-            docker secret rm site.key
-            create_ssl_secrets
+            docker exec check_ssl rm /certs/nginx-provided.crt
+            docker exec check_ssl rm /certs/nginx-provided.key
+            SSL_CHANGED=1
+            create_ssl_certs
             echo -e "\n"
         fi
 
     fi
+
+    # Close the container that has been used to check and copy SSL certs
+    docker kill check_ssl
 }
 
 build_nginx () {
     IMAGE_EXISTS=$(docker images | grep -c danceschool_nginx)
 
-    if [ $IMAGE_EXISTS -ge 1 ] ; then
+    if [ $IMAGE_EXISTS -ge 1 ] && [ $SSL_CHANGED -eq 0 ] ; then
         echo -e "\n"
         read -p "Nginx image exists. Rebuild it? [y/N] " -n 1 -r
         if [[ $REPLY =~ ^[Yy]$ ]] ; then
@@ -236,7 +266,7 @@ build_nginx () {
     fi
 
     echo "Preparing to build Nginx image."
-    docker build --no-cache -t danceschool_nginx ${BASH_SOURCE%/*}/nginx
+    docker build --no-cache --build-arg LETSENCRYPT_ENABLED=$LETSENCRYPT_ENABLED -t danceschool_nginx ${BASH_SOURCE%/*}/nginx
     echo "Nginx image built successfully."
 }
 
@@ -319,7 +349,7 @@ swarm_initialize
 create_volumes
 check_postgres_secrets
 check_secret_key
-check_ssl_secrets
+check_ssl_certs
 build_nginx
 build_web
 database_setup

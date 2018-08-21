@@ -188,8 +188,8 @@ upstream {{ $upstream_name }} {
 {{ $vhostCert := trimSuffix ".crt" $vhostCert }}
 {{ $vhostCert := trimSuffix ".key" $vhostCert }}
 
-{{/* Use the cert specified on the container or fallback to the best vhost match */}}
-{{ $cert := (coalesce $certName $vhostCert) }}
+{{/* Use the cert specified on the container, fallback to the best vhost match, or fallback to the provided host */}}
+{{ $cert := (coalesce $certName $vhostCert "nginx-provided") }}
 
 {{ $is_https := (and (ne $https_method "nohttps") (ne $cert "") (exists (printf "/etc/nginx/certs/%s.crt" $cert)) (exists (printf "/etc/nginx/certs/%s.key" $cert))) }}
 

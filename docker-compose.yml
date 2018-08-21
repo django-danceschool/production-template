@@ -38,9 +38,6 @@ services:
       - html:/usr/share/nginx/html
       - staticfiles:/data/web/staticfiles
       - media:/data/web/media
-    secrets:
-      - site.crt
-      - site.key
     networks:
       danceschool_default:
         aliases:
@@ -145,8 +142,4 @@ secrets:
   postgres_url:
     external: true
   django_secret_key:
-    external: true
-  site.crt:
-    external: true
-  site.key:
     external: true
