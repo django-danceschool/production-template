@@ -379,14 +379,10 @@ if STRIPE_PUBLIC_KEY and STRIPE_PRIVATE_KEY:
 
 # Set Email using either sendgrid or dj_email_url which parses $EMAIL_URL
 if (
-    'SENDGRID_API_KEY' in environ and
-    'SENDGRID_PASSWORD' in environ and
-    'SENDGRID_USERNAME' in environ
+    'SENDGRID_API_KEY' in environ
 ):
     EMAIL_BACKEND = 'sgbackend.SendGridBackend'
     SENDGRID_API_KEY = environ.get('SENDGRID_API_KEY')
-    SENDGRID_PASSWORD = environ.get('SENDGRID_PASSWORD')
-    SENDGRID_USERNAME = environ.get('SENDGRID_USERNAME')
 
 elif 'EMAIL_URL' in environ:
     email_config = dj_email_url.config()

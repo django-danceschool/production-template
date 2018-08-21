@@ -13,4 +13,5 @@ stripe>=1.62.0
 paypalrestsdk>=1.12.0
 peewee>=2.10.1
 django-storages>=1.6.5
+django-autocomplete-light==3.2.10
 -e git+https://github.com/divio/djangocms-text-ckeditor.git#egg=djangocms_text_ckeditor
