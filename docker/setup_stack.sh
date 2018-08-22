@@ -190,7 +190,8 @@ create_ssl_certs () {
                 openssl req -x509 -nodes -days 3650 -newkey rsa:2048 -keyout ./openssl/nginx-provided.key -out ./openssl/nginx-provided.crt
 
                 # Copy the certificate
-                docker cp ./openssl check_ssl:/certs
+                docker cp ./openssl/nginx-provided.key check_ssl:/certs/nginx-provided.key
+		docker cp ./openssl/nginx-provided.crt check_ssl:/certs/nginx-provided.crt
                 rm -r ./openssl
 
                 # Ready to break out of the loop
