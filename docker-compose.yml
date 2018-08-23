@@ -100,7 +100,7 @@ services:
       - media:/data/web/school/media
       - private_media:/data/web/school/smedia
       - ./custom:/data/web/custom
-      working_dir: /data/web
+    working_dir: /data/web
     command: python3 manage.py run_huey
     networks:
       danceschool_default:
