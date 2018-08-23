@@ -4,5 +4,5 @@ from django.utils.translation import ugettext_lazy as _
 
 
 class NewColumbiaAppConfig(AppConfig):
-    name = 'school.newcolumbiaswing'
+    name = 'newcolumbiaswing'
     verbose_name = _('New Columbia Swing Functions')
