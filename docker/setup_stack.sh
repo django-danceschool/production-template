@@ -96,6 +96,7 @@ check_postgres_secrets () {
 
     else
         read -p "Postgres credentials and database exist. Replace credentials? [y/N] " -n 1 -r
+        echo 
         if [[ $REPLY =~ ^[Yy]$ ]] ; then
             docker secret rm postgres_user
             docker secret rm postgres_password
@@ -118,13 +119,14 @@ check_secret_key () {
     # Generate a Django secret key
     if [ $KEY_EXISTS -ge 1 ] ; then
         read -p "Django secret key already exists. Replace it? [y/N] " -n 1 -r
+        echo 
         if [[ $REPLY =~ ^[Yy]$ ]] ; then
             docker secret rm django_secret_key
         else
             return
         fi
     else
-        echo "Generating Django secret key."
+        echo -e "\nGenerating Django secret key."
     fi
 
     echo $(< /dev/urandom tr -dc A-Za-z0-9 | head -c${1:-32}) | docker secret create django_secret_key -
@@ -236,6 +238,7 @@ check_ssl_certs () {
 
     else
         read -p "Existing provided SSL credentials found. Replace them? [y/N] " -n 1 -r
+        echo 
         if [[ $REPLY =~ ^[Yy]$ ]] ; then
             docker exec check_ssl rm /certs/nginx-provided.crt
             docker exec check_ssl rm /certs/nginx-provided.key
@@ -243,6 +246,8 @@ check_ssl_certs () {
             create_ssl_certs
             echo -e "\n"
         fi
+
+        echo 
 
     fi
 
@@ -290,12 +295,30 @@ build_web () {
 
 
 database_setup () {
+    STACK_EXISTS="$(docker stack ls | grep "danceschool_shellonly" | awk '{ print $1;}')"
+    if [[ $STACK_EXISTS ]]; then
+        echo -e "Existing shell only stack is running. Removing this stack.\n"
+        docker stack rm danceschool_shellonly
+        sleep 10
+    fi
+
     echo -e "Deploying a shell-only stack for initial setup of the database.\n"
     docker stack deploy -c ${BASH_SOURCE%/*}/docker-compose-shellonly.yml danceschool_shellonly
-    sleep 3;
 
-    # Get the name of the active web container so that we can run migrations if requested.
-    CONTAINER_NAME=$(docker ps | grep "danceschool_shellonly_web\.1" | awk '{ print $1;}')
+    # Get the name of the active web container so that we can run migrations if requested.    
+    MAX_CONTAINER_WAIT=30
+    CONTAINER_WAIT=0
+    until [[ ! -z "$CONTAINER_NAME" ]] || [[ $((CONTAINER_WAIT)) -ge $((MAX_CONTAINER_WAIT)) ]]; do
+        CONTAINER_NAME=$(docker ps | grep "danceschool_shellonly_web\.1" | awk '{ print $1;}')
+        CONTAINER_WAIT=$((CONTAINER_WAIT+2))
+        sleep 2
+    done
+
+    if [[ -z "$CONTAINER_NAME" ]]; then
+        echo -e "\nUnable to deploy shell-only stack."
+        exit 1
+    fi
+
 
     read -p "Run database migrations? [Y/n] " -n 1 -r
     if [[ $REPLY =~ ^[Nn]$ ]] ; then
