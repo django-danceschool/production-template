@@ -12,6 +12,7 @@ services:
       - media:/data/web/school/media
       - private_media:/data/web/school/smedia
       - ./backups/web:/backup
+      - ./custom:/data/web/custom
     secrets:
       - postgres_url
       - django_secret_key
@@ -98,7 +99,8 @@ services:
       - staticfiles:/data/web/school/staticfiles
       - media:/data/web/school/media
       - private_media:/data/web/school/smedia
-    working_dir: /data/web
+      - ./custom:/data/web/custom
+      working_dir: /data/web
     command: python3 manage.py run_huey
     networks:
       danceschool_default:
