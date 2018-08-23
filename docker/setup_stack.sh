@@ -292,7 +292,7 @@ build_web () {
 database_setup () {
     echo -e "Deploying a shell-only stack for initial setup of the database.\n"
     docker stack deploy -c ${BASH_SOURCE%/*}/docker-compose-shellonly.yml danceschool_shellonly
-    sleep 3;
+    sleep 10;
 
     # Get the name of the active web container so that we can run migrations if requested.
     CONTAINER_NAME=$(docker ps | grep "danceschool_shellonly_web\.1" | awk '{ print $1;}')

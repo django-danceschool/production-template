@@ -85,7 +85,7 @@ INSTALLED_APPS = [
     # ## Typically, if you have a custom app for custom functionality,
     # ## it will be added here:
     # '< my_custom_app >',
-    'newcolumbiaswing',
+    'school.newcolumbiaswing',
 
     # ## This is the core app of the django-danceschool project that
     # ## is required for all installations:
