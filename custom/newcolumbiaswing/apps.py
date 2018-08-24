@@ -26,7 +26,7 @@ class NewColumbiaAppConfig(AppConfig):
                     {
                         'plugin_type': 'TextPlugin',
                         'values':{
-                            'body': 'http://placehold.it/1920x400',
+                            'body': 'https://via.placeholder.com/1920x400',
                         },
                     },
                 ]
