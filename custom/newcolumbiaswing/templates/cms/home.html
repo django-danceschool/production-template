@@ -31,11 +31,11 @@
 	{% show_menu 0 100 100 100 "cms/navbar.html" %}
 {% endblock %}
 
+{% block content_header %}{% endblock %}
+
 <div class="container" id="wrapper">
 
 	{% block main %}
-	  {% block content_header %}{% endblock %}
-
 	  {% block content %}
 	  <div class="row">
 	  <div class="col-md-12 content-col">
@@ -44,18 +44,18 @@
 	  </div>
 	  {% endblock %}
 
-	  {% block footer %}
-	  <footer class="py-5 bg-dark">
-		<div class="container">
-			{% static_placeholder "footer" %}
-		</div>
-		<!-- /.container -->
-	  </footer>
-	  {% endblock %}
-
 	{% endblock %}
 
 </div>
+
+{% block footer %}
+<footer class="py-5 bg-dark">
+  <div class="container">
+	  {% static_placeholder "footer" %}
+  </div>
+  <!-- /.container -->
+</footer>
+{% endblock %}
 
 {% endblock %}
 
