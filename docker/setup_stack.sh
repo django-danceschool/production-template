@@ -135,8 +135,10 @@ check_secret_key () {
 
 create_ssl_certs () {
 
-    # Disable LetsEncrypt unless it is chosen.
-    LETSENCRYPT_ENABLED=0
+    # Define an environment variable that will indicate the type of SSL certificate
+    # that is expected to be used.  This will be passed to the build argument for
+    # the Nginx container.
+    CERTFILE=""
 
     # Require an SSL certificate either by having a file provided, or by generating one using OpenSSL
     echo -e 'Please select a source for an SSL certificate:\n'
@@ -153,8 +155,6 @@ create_ssl_certs () {
                 echo -e "\nAdditionally, note that you MUST have a publicly accessible website hostname "
                 echo -e "(e.g. yourdomain.com), or else LetsEncrypt will fail, and you will need to run "
                 echo -e "this script again."
-
-                LETSENCRYPT_ENABLED=1
 
                 # Ready to break out of the loop
                 break
@@ -180,6 +180,8 @@ create_ssl_certs () {
                 docker cp $PROVIDED_CERT_KEY_PATH check_ssl:/certs/nginx-provided.key
                 docker cp $PROVIDED_CERT_PATH check_ssl:/certs/nginx-provided.crt
 
+                CERTFILE="nginx-provided"
+
                 # Ready to break out of the loop
                 break
 
@@ -195,6 +197,8 @@ create_ssl_certs () {
                 docker cp ./openssl/nginx-selfsigned.key check_ssl:/certs/nginx-selfsigned.key
         		docker cp ./openssl/nginx-selfsigned.crt check_ssl:/certs/nginx-selfsigned.crt
                 rm -r ./openssl
+
+                CERTFILE="nginx-selfsigned"
 
                 # Ready to break out of the loop
                 break
@@ -270,7 +274,7 @@ build_nginx () {
     fi
 
     echo "Preparing to build Nginx image."
-    docker build --no-cache --build-arg LETSENCRYPT_ENABLED=$LETSENCRYPT_ENABLED -t danceschool_nginx ${BASH_SOURCE%/*}/nginx
+    docker build --no-cache --build-arg CERTFILE=$CERTFILE -t danceschool_nginx ${BASH_SOURCE%/*}/nginx
     echo "Nginx image built successfully."
 }
 
