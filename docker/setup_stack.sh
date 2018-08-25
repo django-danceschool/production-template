@@ -228,10 +228,12 @@ check_ssl_certs () {
     if [ $SSL_CERT_EXISTS -lt 1 ] || [ $SSL_KEY_EXISTS -lt 1 ] ; then
         if [ $SSL_CERT_EXISTS -ge 1 ] ; then
             docker exec check_ssl rm /certs/nginx-provided.crt
+            docker exec check_ssl rm /certs/nginx-selfsigned.crt
         fi
 
         if [ $SSL_KEY_EXISTS -ge 1 ] ; then
             docker exec check_ssl rm /certs/nginx-provided.key
+            docker exec check_ssl rm /certs/nginx-selfsigned.key
         fi
 
         # TODO: Check if LetsEncrypt is currently being used here.
@@ -246,6 +248,8 @@ check_ssl_certs () {
         if [[ $REPLY =~ ^[Yy]$ ]] ; then
             docker exec check_ssl rm /certs/nginx-provided.crt
             docker exec check_ssl rm /certs/nginx-provided.key
+            docker exec check_ssl rm /certs/nginx-selfsigned.crt
+            docker exec check_ssl rm /certs/nginx-selfsigned.key
             SSL_CHANGED=1
             create_ssl_certs
             echo -e "\n"
