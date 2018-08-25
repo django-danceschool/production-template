@@ -187,11 +187,11 @@ create_ssl_certs () {
                 mkdir ./openssl
 
                 # This command will provide the usual prompts for information needed to generate the certificate
-                openssl req -x509 -nodes -days 3650 -newkey rsa:2048 -keyout ./openssl/nginx-provided.key -out ./openssl/nginx-provided.crt
+                openssl req -x509 -nodes -days 3650 -newkey rsa:2048 -keyout ./openssl/nginx-selfsigned.key -out ./openssl/nginx-selfsigned.crt
 
                 # Copy the certificate
-                docker cp ./openssl/nginx-provided.key check_ssl:/certs/nginx-provided.key
-		docker cp ./openssl/nginx-provided.crt check_ssl:/certs/nginx-provided.crt
+                docker cp ./openssl/nginx-selfsigned.key check_ssl:/certs/nginx-selfsigned.key
+        		docker cp ./openssl/nginx-selfsigned.crt check_ssl:/certs/nginx-selfsigned.crt
                 rm -r ./openssl
 
                 # Ready to break out of the loop
@@ -216,8 +216,8 @@ check_ssl_certs () {
     docker run --rm -d --name check_ssl -v danceschool_certs:/certs alpine top
 
     # Check if a provided certificate exists.
-    SSL_CERT_EXISTS=$(docker exec check_ssl ls /certs | grep -c "nginx-provided\.crt")
-    SSL_KEY_EXISTS=$(docker exec check_ssl ls /certs | grep -c "nginx-provided\.key")
+    SSL_CERT_EXISTS=$(docker exec check_ssl ls /certs | grep -c "nginx-(provided|selfsigned)\.crt")
+    SSL_KEY_EXISTS=$(docker exec check_ssl ls /certs | grep -c "nginx-(provided|selfsigned)\.key")
 
     if [ $SSL_CERT_EXISTS -lt 1 ] || [ $SSL_KEY_EXISTS -lt 1 ] ; then
         if [ $SSL_CERT_EXISTS -ge 1 ] ; then
