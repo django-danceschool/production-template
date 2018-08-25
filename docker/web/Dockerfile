@@ -13,6 +13,9 @@ RUN apk add --update python3 python3-dev postgresql-client postgresql-dev build-
 RUN pip3 install --upgrade pip
 RUN pip3 install -r requirements.txt
 
+# Add custom apps to PYTHONPATH
+ENV PYTHONPATH "$PYTHONPATH:/data/web/custom"
+
 # Clean
 RUN apk del -r python3-dev postgresql git
 

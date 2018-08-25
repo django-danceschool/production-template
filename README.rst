@@ -1,8 +1,8 @@
-*****************************************
-Heroku Integration of Django Dance School
-*****************************************
+************************************************
+Docker/Heroku Integration of Django Dance School
+************************************************
 
-**Note:** *This repo is not yet widely tested in production use.  If you are setting up a Heroku project for the first time, it is strongly recommended that you find someone with a background in the use of this system or similar systems to ensure that your deployment goes as smoothly as possible.  If you encounter errors or missing functionality in setting up this template, please submit an issue to the issue tracker, or email `django.danceschool@gmail.com <mailto:django.danceschool@gmail.com>`_.*
+**Note:** If you are setting up a Docker or Heroku project for the first time, it is recommended that you find someone with a background in the use of these systems to ensure that your deployment goes as smoothly as possible.  If you encounter errors or missing functionality in setting up this template, please submit an issue to the issue tracker, or email `django.danceschool@gmail.com <mailto:django.danceschool@gmail.com>`_.*
 
 Introduction
 ============
