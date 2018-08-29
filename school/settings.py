@@ -217,6 +217,7 @@ TEMPLATES = [
                 'django.template.context_processors.csrf',
                 'sekizai.context_processors.sekizai',
                 'cms.context_processors.cms_settings',
+                'danceschool.core.context_processors.site',
             ],
             'debug': False,
         },
