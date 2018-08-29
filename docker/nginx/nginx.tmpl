@@ -189,7 +189,8 @@ upstream {{ $upstream_name }} {
 {{ $vhostCert := trimSuffix ".key" $vhostCert }}
 
 {{/* Use the cert specified on the container, fallback to the best vhost match, or fallback to the provided host */}}
-{{ $cert := (coalesce $certName $vhostCert "nginx-provided") }}
+{{ $envCERTFILE := (trim $.Env.CERTFILE) }}
+{{ $cert := when (eq $envCERTFILE "") (coalesce $certName $vhostCert) (coalesce $envCERTFILE $certName $vhostCert) }}
 
 {{ $is_https := (and (ne $https_method "nohttps") (ne $cert "") (exists (printf "/etc/nginx/certs/%s.crt" $cert)) (exists (printf "/etc/nginx/certs/%s.key" $cert))) }}
 
@@ -267,7 +268,7 @@ server {
 	ssl_trusted_certificate {{ printf "/etc/nginx/certs/%s.chain.pem" $cert }};
 	{{ end }}
 
-	{{ if (and (ne $https_method "noredirect") (ne $hsts "off") (ne $cert "nginx-provided")) }}
+	{{ if (and (ne $https_method "noredirect") (ne $hsts "off") (ne $cert "nginx-selfsigned")) }}
 	add_header Strict-Transport-Security "{{ trim $hsts }}" always;
 	{{ end }}
 

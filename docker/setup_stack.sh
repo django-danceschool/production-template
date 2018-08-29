@@ -135,8 +135,10 @@ check_secret_key () {
 
 create_ssl_certs () {
 
-    # Disable LetsEncrypt unless it is chosen.
-    LETSENCRYPT_ENABLED=0
+    # Define an environment variable that will indicate the type of SSL certificate
+    # that is expected to be used.  This will be passed to the build argument for
+    # the Nginx container.
+    CERTFILE=""
 
     # Require an SSL certificate either by having a file provided, or by generating one using OpenSSL
     echo -e 'Please select a source for an SSL certificate:\n'
@@ -153,8 +155,6 @@ create_ssl_certs () {
                 echo -e "\nAdditionally, note that you MUST have a publicly accessible website hostname "
                 echo -e "(e.g. yourdomain.com), or else LetsEncrypt will fail, and you will need to run "
                 echo -e "this script again."
-
-                LETSENCRYPT_ENABLED=1
 
                 # Ready to break out of the loop
                 break
@@ -180,6 +180,8 @@ create_ssl_certs () {
                 docker cp $PROVIDED_CERT_KEY_PATH check_ssl:/certs/nginx-provided.key
                 docker cp $PROVIDED_CERT_PATH check_ssl:/certs/nginx-provided.crt
 
+                CERTFILE="nginx-provided"
+
                 # Ready to break out of the loop
                 break
 
@@ -189,12 +191,14 @@ create_ssl_certs () {
                 mkdir ./openssl
 
                 # This command will provide the usual prompts for information needed to generate the certificate
-                openssl req -x509 -nodes -days 3650 -newkey rsa:2048 -keyout ./openssl/nginx-provided.key -out ./openssl/nginx-provided.crt
+                openssl req -x509 -nodes -days 3650 -newkey rsa:2048 -keyout ./openssl/nginx-selfsigned.key -out ./openssl/nginx-selfsigned.crt
 
                 # Copy the certificate
-                docker cp ./openssl/nginx-provided.key check_ssl:/certs/nginx-provided.key
-		docker cp ./openssl/nginx-provided.crt check_ssl:/certs/nginx-provided.crt
+                docker cp ./openssl/nginx-selfsigned.key check_ssl:/certs/nginx-selfsigned.key
+        		docker cp ./openssl/nginx-selfsigned.crt check_ssl:/certs/nginx-selfsigned.crt
                 rm -r ./openssl
+
+                CERTFILE="nginx-selfsigned"
 
                 # Ready to break out of the loop
                 break
@@ -218,16 +222,18 @@ check_ssl_certs () {
     docker run --rm -d --name check_ssl -v danceschool_certs:/certs alpine top
 
     # Check if a provided certificate exists.
-    SSL_CERT_EXISTS=$(docker exec check_ssl ls /certs | grep -c "nginx-provided\.crt")
-    SSL_KEY_EXISTS=$(docker exec check_ssl ls /certs | grep -c "nginx-provided\.key")
+    SSL_CERT_EXISTS=$(docker exec check_ssl ls /certs | grep -c "nginx-(provided|selfsigned)\.crt")
+    SSL_KEY_EXISTS=$(docker exec check_ssl ls /certs | grep -c "nginx-(provided|selfsigned)\.key")
 
     if [ $SSL_CERT_EXISTS -lt 1 ] || [ $SSL_KEY_EXISTS -lt 1 ] ; then
         if [ $SSL_CERT_EXISTS -ge 1 ] ; then
             docker exec check_ssl rm /certs/nginx-provided.crt
+            docker exec check_ssl rm /certs/nginx-selfsigned.crt
         fi
 
         if [ $SSL_KEY_EXISTS -ge 1 ] ; then
             docker exec check_ssl rm /certs/nginx-provided.key
+            docker exec check_ssl rm /certs/nginx-selfsigned.key
         fi
 
         # TODO: Check if LetsEncrypt is currently being used here.
@@ -242,6 +248,8 @@ check_ssl_certs () {
         if [[ $REPLY =~ ^[Yy]$ ]] ; then
             docker exec check_ssl rm /certs/nginx-provided.crt
             docker exec check_ssl rm /certs/nginx-provided.key
+            docker exec check_ssl rm /certs/nginx-selfsigned.crt
+            docker exec check_ssl rm /certs/nginx-selfsigned.key
             SSL_CHANGED=1
             create_ssl_certs
             echo -e "\n"
@@ -270,7 +278,7 @@ build_nginx () {
     fi
 
     echo "Preparing to build Nginx image."
-    docker build --no-cache --build-arg LETSENCRYPT_ENABLED=$LETSENCRYPT_ENABLED -t danceschool_nginx ${BASH_SOURCE%/*}/nginx
+    docker build --no-cache --build-arg CERTFILE=$CERTFILE -t danceschool_nginx ${BASH_SOURCE%/*}/nginx
     echo "Nginx image built successfully."
 }
 
