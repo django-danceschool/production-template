@@ -86,6 +86,18 @@ INSTALLED_APPS = [
     # ## it will be added here:
     # '< my_custom_app >',
 
+    # The project provides some default theming options, including easy Bootstrap 4
+    # plugins. As additional themes are included in the project, they should be added
+    # here.  Uncomment a theme to enable the project to search for its template
+    # files, CMS plugins, etc.  Also, be sure that the danceschool.themes app is
+    # enabled below.
+    'danceschool.themes.business_frontpage',
+
+    # This is required for customizable themes to work, but it must be
+    # listed *after* and customizable themes are listed so that templates
+    # can be overridden as needed.
+    'danceschool.themes',
+
     # ## This is the core app of the django-danceschool project that
     # ## is required for all installations:
     'danceschool.core',
@@ -105,10 +117,7 @@ INSTALLED_APPS = [
     # ## Uncomment to add private lesson scheduling functionality:
     # 'danceschool.private_lessons',
 
-    # ## Uncomment the lines below to add payment processor integration:
-    # 'danceschool.payments.paypal',
-    # 'danceschool.payments.stripe',
-    # 'danceschool.payments.square',
+    # Note: Payment processor apps are automatically enabled/disabled below.
 
     # These are required for the CMS
     'menus',
@@ -129,6 +138,26 @@ INSTALLED_APPS = [
 
     # This helps to make forms pretty
     'crispy_forms',
+
+    # For Bootstrap 4 plugins and theme functionality
+    'djangocms_icon',
+    'djangocms_link',
+    'djangocms_picture',
+    'djangocms_bootstrap4',
+    'djangocms_bootstrap4.contrib.bootstrap4_alerts',
+    'djangocms_bootstrap4.contrib.bootstrap4_badge',
+    'djangocms_bootstrap4.contrib.bootstrap4_card',
+    'djangocms_bootstrap4.contrib.bootstrap4_carousel',
+    'djangocms_bootstrap4.contrib.bootstrap4_collapse',
+    'djangocms_bootstrap4.contrib.bootstrap4_content',
+    'djangocms_bootstrap4.contrib.bootstrap4_grid',
+    'djangocms_bootstrap4.contrib.bootstrap4_jumbotron',
+    'djangocms_bootstrap4.contrib.bootstrap4_link',
+    'djangocms_bootstrap4.contrib.bootstrap4_listgroup',
+    'djangocms_bootstrap4.contrib.bootstrap4_media',
+    'djangocms_bootstrap4.contrib.bootstrap4_picture',
+    'djangocms_bootstrap4.contrib.bootstrap4_tabs',
+    'djangocms_bootstrap4.contrib.bootstrap4_utilities',
 
     # Autocomplete overrides some admin features so it goes here (above admin)
     'dal',
@@ -216,6 +245,7 @@ TEMPLATES = [
                 'django.template.context_processors.csrf',
                 'sekizai.context_processors.sekizai',
                 'cms.context_processors.cms_settings',
+                'danceschool.core.context_processors.site',
             ],
             'debug': False,
         },
