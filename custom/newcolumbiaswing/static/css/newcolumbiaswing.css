@@ -46,11 +46,11 @@ section h2 {
   color: #000000; }
 
 .bg-building {
-  background: url("../images/background-building.png") top center no-repeat scroll;
+  /* background: url('../images/background-building.png') top center no-repeat scroll; */
   color: #ffffff; }
 
 .bg-crowd {
-  background: url("../images/background-crowd.png") top center no-repeat scroll;
+  /* background: url('../images/background-crowd.png') top center no-repeat scroll; */
   color: #ffffff; }
 
 .card {
