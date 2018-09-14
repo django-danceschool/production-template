@@ -1,0 +1,123 @@
+/*!
+ * New Columbia Swing stylesheet
+ */
+.bg-building, .bg-crowd, .splash-header {
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  background-size: cover;
+  -o-background-size: cover; }
+
+section, .splash-header {
+  top: -54px;
+  position: relative; }
+  @media (min-width: 992px) {
+    section, .splash-header {
+      top: -56px; } }
+
+/* General styles */
+body {
+  padding-top: 54px;
+  font-family: "Rubik", sans-serif; }
+
+@media (min-width: 992px) {
+  body {
+    padding-top: 56px; } }
+section {
+  padding-top: 2em;
+  padding-bottom: 2em;
+  text-align: center; }
+
+section h2 {
+  text-align: center;
+  letter-spacing: 2pt;
+  text-transform: uppercase;
+  color: #133f35; }
+
+.bg-dark {
+  background-color: #133f35 !important;
+  color: #ffffff; }
+
+.bg-light {
+  background-color: #459b84 !important;
+  color: #ffffff; }
+
+.bg-white {
+  background-color: #ffffff !important;
+  color: #000000; }
+
+.bg-building {
+  background: url("../images/background-building.png") top center no-repeat scroll;
+  color: #ffffff; }
+
+.bg-crowd {
+  background: url("../images/background-crowd.png") top center no-repeat scroll;
+  color: #ffffff; }
+
+.card {
+  height: 100%; }
+
+/* Navigation */
+.navbar-top {
+  font-weight: 700;
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  height: 85px;
+  z-index: 8;
+  top: 20px;
+  position: relative; }
+
+.navbar-brand-centered {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  display: block;
+  width: 220px;
+  height: 136px;
+  margin-left: -110px;
+  margin-top: -80px;
+  z-index: 10;
+  text-align: center; }
+
+.navbar-brand-centered img {
+  max-width: 210px; }
+
+.navbar-left {
+  position: absolute;
+  right: calc(50% + 120px); }
+
+.navbar-right {
+  position: absolute;
+  left: calc(50% + 120px); }
+
+.navbar-nav li {
+  margin: 0 1.5em; }
+
+/* Buttons */
+.btn-primary, .btn-info {
+  background-color: #459b84;
+  color: #ffffff; }
+
+.btn-success {
+  background-color: #133f35;
+  color: #ffffff; }
+
+/* Front page splash */
+.splash-header {
+  height: 50vh;
+  min-height: 300px; }
+
+.splash-header .bottom-column {
+  position: absolute;
+  bottom: 30px; }
+
+.splash-header h1 {
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 4.5rem;
+  line-height: 1.1; }
+
+.splash-section {
+  font-size: 1.2rem;
+  font-weight: 700; }
+
+/*# sourceMappingURL=newcolumbiaswing.css.map */

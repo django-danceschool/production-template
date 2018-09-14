@@ -1,26 +1,52 @@
-{% load menu_tags danceschool_tags i18n %}
+{% load menu_tags static danceschool_tags i18n %}
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark navbar-top">
-  <a class="navbar-brand" href="{{ site_root }}">{% getSchoolName %}</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="#navbarResponsive" aria-expanded="false" aria-label="{% trans 'Toggle navigation' %}">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarResponsive">
-    <ul class="navbar-nav ml-auto">
-      {% for child in children %}
-        {% if child.children %}
-          <li class="child{% if child.selected %} active selected{% endif %}{% if child.ancestor %} ancestor{% endif %}{% if child.sibling %} sibling{% endif %}{% if child.descendant %} descendant{% endif %} nav-item dropdown">
-            <a href="{{ child.attr.redirect_url|default:child.get_absolute_url }}" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ child.get_menu_title }}&nbsp;<span class="caret"></span></a>
-            <ul class="dropdown-menu">
-              {% show_menu from_level to_level extra_inactive extra_active "cms/navbar_sub.html" "" "" child %}
-            </ul>
-          </li>
-        {% else %}
-          <li class="child{% if child.selected %} active selected{% endif %}{% if child.ancestor %} ancestor{% endif %}{% if child.sibling %} sibling{% endif %}{% if child.descendant %} descendant{% endif %} nav-item">
-            <a href="{{ child.attr.redirect_url|default:child.get_absolute_url }}" class="nav-link">{{ child.get_menu_title }}</a>
-          </li>
-        {% endif %}
-      {% endfor %}
-    </ul>
-  </div>
+<nav class="navbar navbar-expand-xl navbar-dark bg-dark navbar-top" role="navigation">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+
+    <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="{% trans 'Toggle navigation' %}">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="navbar-brand navbar-brand-centered"><a href="{{ site_root }}"><img id="logo" src="{% static 'images/logo-temp.png' %}" alt="New Columbia Swing" title="New Columbia Swing" /></a></div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="navbar">
+      <ul class="navbar-nav navbar-left">
+        {% with children|slice:":3" as left_navbar %}
+        {% for child in left_navbar %}
+          {% if child.children %}
+            <li class="child{% if child.selected %} selected{% endif %}{% if child.ancestor %} ancestor{% endif %}{% if child.sibling %} sibling{% endif %}{% if child.descendant %} descendant{% endif %} nav-item dropdown">
+              <a href="{{ child.attr.redirect_url|default:child.get_absolute_url }}" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ child.get_menu_title }}&nbsp;<span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                {% show_menu from_level to_level extra_inactive extra_active "cms/navbar_sub.html" "" "" child %}
+              </ul>
+            </li>
+          {% else %}
+            <li class="child{% if child.selected %} selected{% endif %}{% if child.ancestor %} ancestor{% endif %}{% if child.sibling %} sibling{% endif %}{% if child.descendant %} descendant{% endif %} nav-item">
+              <a href="{{ child.attr.redirect_url|default:child.get_absolute_url }}" class="nav-link">{{ child.get_menu_title }}</a>
+            </li>
+          {% endif %}
+        {% endfor %}
+        {% endwith %}
+        </ul>
+        <ul class="navbar-nav navbar-right">
+        {% with children|slice:"3:6" as right_navbar %}
+        {% for child in right_navbar %}
+          {% if child.children %}
+            <li class="child{% if child.selected %} selected{% endif %}{% if child.ancestor %} ancestor{% endif %}{% if child.sibling %} sibling{% endif %}{% if child.descendant %} descendant{% endif %} nav-item dropdown">
+              <a href="{{ child.attr.redirect_url|default:child.get_absolute_url }}" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ child.get_menu_title }}&nbsp;<span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                {% show_menu from_level to_level extra_inactive extra_active "cms/navbar_sub.html" "" "" child %}
+              </ul>
+            </li>
+          {% else %}
+            <li class="child{% if child.selected %} selected{% endif %}{% if child.ancestor %} ancestor{% endif %}{% if child.sibling %} sibling{% endif %}{% if child.descendant %} descendant{% endif %} nav-item">
+              <a href="{{ child.attr.redirect_url|default:child.get_absolute_url }}" class="nav-link">{{ child.get_menu_title }}</a>
+            </li>
+          {% endif %}
+        {% endfor %}
+        {% endwith %}
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
 </nav>

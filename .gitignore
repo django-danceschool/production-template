@@ -96,3 +96,6 @@ backups/web/*
 
 # Visual Studio Code settings
 .vscode/
+
+# Sass cache
+.sass-cache/

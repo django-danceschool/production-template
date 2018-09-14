@@ -1,0 +1,162 @@
+/*!
+ * New Columbia Swing stylesheet
+ */
+$offset: 54px;
+$font: 'Rubik', sans-serif;
+$color-primary: #133f35;
+$color-light: #459b84;
+$color-white: #ffffff;
+$color-black: #000000;
+
+%cover {
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  background-size: cover;
+  -o-background-size: cover;
+}
+
+%top-offset {
+  @media (min-width: 992px) {
+    top: -1 * ($offset + 2px); 
+  }
+
+  top: -1 * $offset;
+  position: relative;
+}
+
+/* General styles */
+body {
+  padding-top: $offset;
+  font-family: $font;
+}
+
+@media (min-width: 992px) {
+  body {
+    padding-top: $offset + 2px;
+  }
+}
+
+section {
+  @extend %top-offset;
+  padding-top: 2em;
+  padding-bottom: 2em;
+  text-align: center;
+}
+
+section h2 {
+  text-align: center;
+  letter-spacing: 2pt;
+  text-transform: uppercase;
+  color: $color-primary;
+}
+
+.bg-dark {
+  background-color: $color-primary!important;
+  color: $color-white;
+}
+
+.bg-light {
+  background-color: $color-light!important;
+  color: $color-white;
+}
+
+.bg-white {
+  background-color: $color-white!important;
+  color: $color-black;
+}
+
+.bg-building {
+  @extend %cover;
+  background: url('../images/background-building.png') top center no-repeat scroll;
+  color: $color-white;
+}
+
+.bg-crowd {
+  @extend %cover;
+  background: url('../images/background-crowd.png') top center no-repeat scroll;
+  color: $color-white;
+}
+
+.card {
+  height: 100%;
+}
+
+/* Navigation */
+.navbar-top {
+  font-weight: 700;
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  height: 85px;
+  z-index: 8;
+  top: 20px;
+  position: relative;
+}
+
+.navbar-brand-centered {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  display: block;
+  width: 220px;
+  height: 136px;
+  margin-left: -110px;
+  margin-top: -80px;
+  z-index: 10;
+  text-align: center;
+}
+
+.navbar-brand-centered img {
+  max-width: 210px;
+}
+
+.navbar-left {
+  position: absolute;
+  right: calc(50% + 120px);
+}
+
+.navbar-right {
+  position: absolute;
+  left: calc(50% + 120px);
+}
+
+.navbar-nav li {
+  margin: 0 1.5em;
+}
+
+/* Buttons */
+
+.btn-primary, .btn-info {
+  background-color: $color-light;
+  color: $color-white;
+}
+
+.btn-success {
+  background-color: $color-primary;
+  color: $color-white;
+}
+
+/* Front page splash */
+
+.splash-header {
+  @extend %top-offset;
+  @extend %cover;
+  height: 50vh;
+  min-height: 300px;
+}
+
+.splash-header .bottom-column {
+  position: absolute;
+  bottom: 30px;
+}
+
+.splash-header h1 {
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 4.5rem;
+  line-height: 1.1;
+}
+
+.splash-section {
+  font-size: 1.2rem;
+  font-weight: 700;
+}
