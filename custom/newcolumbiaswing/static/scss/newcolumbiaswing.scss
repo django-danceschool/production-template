@@ -5,6 +5,7 @@ $offset: 54px;
 $font: 'Rubik', sans-serif;
 $color-primary: #133f35;
 $color-light: #459b84;
+$color-offwhite: #f7f7dd;
 $color-white: #ffffff;
 $color-black: #000000;
 
@@ -37,7 +38,6 @@ body {
 }
 
 section {
-  @extend %top-offset;
   padding-top: 2em;
   padding-bottom: 2em;
   text-align: center;
@@ -52,12 +52,12 @@ section h2 {
 
 .bg-dark {
   background-color: $color-primary!important;
-  color: $color-white;
+  color: $color-offwhite;
 }
 
 .bg-light {
   background-color: $color-light!important;
-  color: $color-white;
+  color: $color-offwhite;
 }
 
 .bg-white {
@@ -67,14 +67,14 @@ section h2 {
 
 .bg-building {
   @extend %cover;
-  /* background: url('../images/background-building.png') top center no-repeat scroll; */
-  color: $color-white;
+  /* background: url('') top center no-repeat scroll; */
+  color: $color-offwhite;
 }
 
 .bg-crowd {
   @extend %cover;
-  /* background: url('../images/background-crowd.png') top center no-repeat scroll; */
-  color: $color-white;
+  /* background: url('') top center no-repeat scroll; */
+  color: $color-offwhite;
 }
 
 .card {
@@ -127,21 +127,21 @@ section h2 {
 
 .btn-primary, .btn-info {
   background-color: $color-light;
-  color: $color-white;
+  color: $color-offwhite;
 }
 
 .btn-success {
   background-color: $color-primary;
-  color: $color-white;
+  color: $color-offwhite;
 }
 
 /* Front page splash */
 
 .splash-header {
-  @extend %top-offset;
   @extend %cover;
-  height: 50vh;
+  height: 75vh;
   min-height: 300px;
+  color: $color-offwhite;
 }
 
 .splash-header .bottom-column {

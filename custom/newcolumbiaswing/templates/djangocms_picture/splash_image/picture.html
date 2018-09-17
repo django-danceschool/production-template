@@ -9,4 +9,4 @@
         {% thumbnail instance.picture picture_size.size crop=picture_size.crop upscale=picture_size.upscale subject_location=instance.picture.subject_location as thumbnail %}
         {{ thumbnail.url }}
     {% endif %}
-{% endspaceless %}') top center no-repeat scroll;">
+{% endspaceless %}') top center no-repeat scroll; background-size: cover; -webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover;">

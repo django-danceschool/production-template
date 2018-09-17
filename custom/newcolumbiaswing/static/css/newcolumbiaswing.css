@@ -7,13 +7,6 @@
   background-size: cover;
   -o-background-size: cover; }
 
-section, .splash-header {
-  top: -54px;
-  position: relative; }
-  @media (min-width: 992px) {
-    section, .splash-header {
-      top: -56px; } }
-
 /* General styles */
 body {
   padding-top: 54px;
@@ -35,23 +28,23 @@ section h2 {
 
 .bg-dark {
   background-color: #133f35 !important;
-  color: #ffffff; }
+  color: #f7f7dd; }
 
 .bg-light {
   background-color: #459b84 !important;
-  color: #ffffff; }
+  color: #f7f7dd; }
 
 .bg-white {
   background-color: #ffffff !important;
   color: #000000; }
 
 .bg-building {
-  /* background: url('../images/background-building.png') top center no-repeat scroll; */
-  color: #ffffff; }
+  /* background: url('') top center no-repeat scroll; */
+  color: #f7f7dd; }
 
 .bg-crowd {
-  /* background: url('../images/background-crowd.png') top center no-repeat scroll; */
-  color: #ffffff; }
+  /* background: url('') top center no-repeat scroll; */
+  color: #f7f7dd; }
 
 .card {
   height: 100%; }
@@ -95,16 +88,17 @@ section h2 {
 /* Buttons */
 .btn-primary, .btn-info {
   background-color: #459b84;
-  color: #ffffff; }
+  color: #f7f7dd; }
 
 .btn-success {
   background-color: #133f35;
-  color: #ffffff; }
+  color: #f7f7dd; }
 
 /* Front page splash */
 .splash-header {
-  height: 50vh;
-  min-height: 300px; }
+  height: 75vh;
+  min-height: 300px;
+  color: #f7f7dd; }
 
 .splash-header .bottom-column {
   position: absolute;
