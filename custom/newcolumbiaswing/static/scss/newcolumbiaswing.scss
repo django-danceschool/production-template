@@ -159,6 +159,10 @@ section h2 {
 
 /* Front page cards */
 .card-group-offerings {
+  @media (max-width: 767px) {
+    column-count: 1;
+  }
+
   .card {
     border: 0;
   }
@@ -175,12 +179,13 @@ section h2 {
   }
 
   .card:nth-child(1), .card:nth-child(2) {
-    @media (min-width: 576px) {
+
+    border-bottom: 1px solid $color-primary;
+
+    @media (min-width: 768px) {
       border-right: 1px solid $color-primary;
+      border-bottom: 0;
     }
-    @media (max-width: 575px) {
-      border-bottom: 1px solid $color-primary;
-    }    
   }
 
 }

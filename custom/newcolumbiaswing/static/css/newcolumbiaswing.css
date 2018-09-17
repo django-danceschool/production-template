@@ -112,6 +112,9 @@ section h2 {
   font-weight: 700; }
 
 /* Front page cards */
+@media (max-width: 767px) {
+  .card-group-offerings {
+    column-count: 1; } }
 .card-group-offerings .card {
   border: 0; }
 .card-group-offerings .card-header {
@@ -120,11 +123,11 @@ section h2 {
   .card-group-offerings .card-header h1, .card-group-offerings .card-header h2, .card-group-offerings .card-header h3, .card-group-offerings .card-header h4, .card-group-offerings .card-header h5, .card-group-offerings .card-header h6 {
     text-transform: uppercase;
     color: #133f35; }
-@media (min-width: 576px) {
-  .card-group-offerings .card:nth-child(1), .card-group-offerings .card:nth-child(2) {
-    border-right: 1px solid #133f35; } }
-@media (max-width: 575px) {
-  .card-group-offerings .card:nth-child(1), .card-group-offerings .card:nth-child(2) {
-    border-bottom: 1px solid #133f35; } }
+.card-group-offerings .card:nth-child(1), .card-group-offerings .card:nth-child(2) {
+  border-bottom: 1px solid #133f35; }
+  @media (min-width: 768px) {
+    .card-group-offerings .card:nth-child(1), .card-group-offerings .card:nth-child(2) {
+      border-right: 1px solid #133f35;
+      border-bottom: 0; } }
 
 /*# sourceMappingURL=newcolumbiaswing.css.map */
