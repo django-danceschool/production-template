@@ -77,10 +77,6 @@ section h2 {
   color: $color-offwhite;
 }
 
-.card {
-  height: 100%;
-}
-
 /* Navigation */
 .navbar-top {
   font-weight: 700;
@@ -160,3 +156,32 @@ section h2 {
   font-size: 1.2rem;
   font-weight: 700;
 }
+
+/* Front page cards */
+.card-group-offerings {
+  .card {
+    border: 0;
+  }
+
+  .card-header {
+    background-color: transparent;
+    border: 0;
+
+    h1, h2, h3, h4, h5, h6 {
+      text-transform: uppercase;
+      color: $color-primary;
+    }
+
+  }
+
+  .card:nth-child(1), .card:nth-child(2) {
+    @media (min-width: 576px) {
+      border-right: 1px solid $color-primary;
+    }
+    @media (max-width: 575px) {
+      border-bottom: 1px solid $color-primary;
+    }    
+  }
+
+}
+

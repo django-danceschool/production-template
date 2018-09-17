@@ -46,9 +46,6 @@ section h2 {
   /* background: url('') top center no-repeat scroll; */
   color: #f7f7dd; }
 
-.card {
-  height: 100%; }
-
 /* Navigation */
 .navbar-top {
   font-weight: 700;
@@ -113,5 +110,21 @@ section h2 {
 .splash-section {
   font-size: 1.2rem;
   font-weight: 700; }
+
+/* Front page cards */
+.card-group-offerings .card {
+  border: 0; }
+.card-group-offerings .card-header {
+  background-color: transparent;
+  border: 0; }
+  .card-group-offerings .card-header h1, .card-group-offerings .card-header h2, .card-group-offerings .card-header h3, .card-group-offerings .card-header h4, .card-group-offerings .card-header h5, .card-group-offerings .card-header h6 {
+    text-transform: uppercase;
+    color: #133f35; }
+@media (min-width: 576px) {
+  .card-group-offerings .card:nth-child(1), .card-group-offerings .card:nth-child(2) {
+    border-right: 1px solid #133f35; } }
+@media (max-width: 575px) {
+  .card-group-offerings .card:nth-child(1), .card-group-offerings .card:nth-child(2) {
+    border-bottom: 1px solid #133f35; } }
 
 /*# sourceMappingURL=newcolumbiaswing.css.map */
