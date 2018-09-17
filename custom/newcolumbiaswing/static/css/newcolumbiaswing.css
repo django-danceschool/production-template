@@ -114,9 +114,10 @@ section h2 {
 /* Front page cards */
 @media (max-width: 767px) {
   .card-group-offerings {
-    column-count: 1; } }
+    display: block !important; } }
 .card-group-offerings .card {
-  border: 0; }
+  border: 0;
+  border-radius: 0; }
 .card-group-offerings .card-header {
   background-color: transparent;
   border: 0; }
