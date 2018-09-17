@@ -8,6 +8,7 @@ boto3>=1.4.7
 dj-database-url>=0.4.2
 dj-email-url>=0.0.10
 whitenoise>=3.2
+sendgrid-django>=4.2.0
 squareconnect>=2.2.1
 stripe>=1.62.0
 paypalrestsdk>=1.12.0
