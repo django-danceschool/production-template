@@ -160,11 +160,12 @@ section h2 {
 /* Front page cards */
 .card-group-offerings {
   @media (max-width: 767px) {
-    column-count: 1;
+    display: block!important;
   }
 
   .card {
     border: 0;
+    border-radius: 0;
   }
 
   .card-header {
