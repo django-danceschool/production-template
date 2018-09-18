@@ -1,5 +1,5 @@
 Django>=1.11.15,<2.0
-django-danceschool>=0.5.6
+django-danceschool>=0.6.1
 redis>=2.10.6
 django-redis==4.3.0
 gunicorn>=19.5.0
@@ -8,7 +8,8 @@ boto3>=1.4.7
 dj-database-url>=0.4.2
 dj-email-url>=0.0.10
 whitenoise>=3.2
-squareconnect>=2.2.1
+sendgrid-django>=4.2.0
+squareconnect>=2.20180712.3
 stripe>=1.62.0
 paypalrestsdk>=1.12.0
 peewee>=2.10.1
