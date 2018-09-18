@@ -89,17 +89,16 @@ New Columbia Swing offers Lindy Hop, Swing Dance, Balboa, and Charleston classes
 
 {% block content_header %}{% endblock %}
 
-<div class="container" id="wrapper">
-
 	{% block main %}
-	  {% block content %}
+	<div class="container" id="wrapper">
+	{% block content %}
 	  <div class="row">
 	  <div class="col-md-12 content-col">
 	  {% placeholder "content" %}
 	  </div>
 	  </div>
-	  {% endblock %}
-
+	{% endblock %}
+	</div>
 	{% endblock %}
 
 </div>
