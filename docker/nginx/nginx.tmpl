@@ -281,6 +281,10 @@ server {
 	include /etc/nginx/vhost.d/default;
 	{{ end }}
 
+    location /media {
+        alias /data/web/media;
+    }
+
 	location / {
 		{{ if eq $proto "uwsgi" }}
 		include uwsgi_params;
