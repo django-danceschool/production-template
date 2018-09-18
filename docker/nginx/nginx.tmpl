@@ -51,6 +51,9 @@ map $http_upgrade $proxy_connection {
 # Apply fix for very long server names
 server_names_hash_bucket_size 128;
 
+# Set appropriate max file upload size
+client_max_body_size 50M;
+
 # Default dhparam
 {{ if (exists "/etc/nginx/dhparam/dhparam.pem") }}
 ssl_dhparam /etc/nginx/dhparam/dhparam.pem;
@@ -277,6 +280,12 @@ server {
 	{{ else if (exists "/etc/nginx/vhost.d/default") }}
 	include /etc/nginx/vhost.d/default;
 	{{ end }}
+
+	location /media {
+		rewrite ^/(.*)/$ /$1 permanent;
+		try_files $uri =404;
+		root /data/web;
+	}
 
 	location / {
 		{{ if eq $proto "uwsgi" }}

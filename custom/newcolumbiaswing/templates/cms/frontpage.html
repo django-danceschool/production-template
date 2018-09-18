@@ -23,3 +23,17 @@
       </div>
     </section>
 {% endblock %}
+
+{% block main %}
+{% placeholder "content" or %}
+<div class="container" id="wrapper">
+  <div class="row">
+	  <div class="col-md-12 content-col">
+    <p>Enter some content here.</p>
+    </div>
+  </div>
+</div>
+{% endplaceholder %}
+
+
+{% endblock %}
