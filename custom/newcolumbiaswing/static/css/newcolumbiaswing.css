@@ -16,7 +16,8 @@ body {
       padding-top: 56px; } }
 
 #wrapper {
-  margin-top: 90px; }
+  margin-top: 90px;
+  margin-bottom: 3em; }
 
 section {
   padding-top: 2em;
