@@ -215,6 +215,21 @@ section h2 {
   }
 }
 
+/* Footer */
+.footer-logo-centered {
+  text-align: center;
+
+  img {
+    max-width: 210px;
+  }
+}
+
+.footer-social-links {
+  img {
+    max-width: 40px;
+  }
+}
+
 /* Front page cards */
 .card-group-offerings {
   @media (max-width: 767px) {

@@ -152,6 +152,15 @@ section h2 {
     .splash-section {
       margin-top: -141px; } }
 
+/* Footer */
+.footer-logo-centered {
+  text-align: center; }
+  .footer-logo-centered img {
+    max-width: 210px; }
+
+.footer-social-links img {
+  max-width: 40px; }
+
 /* Front page cards */
 @media (max-width: 767px) {
   .card-group-offerings {
