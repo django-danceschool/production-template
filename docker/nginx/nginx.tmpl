@@ -281,9 +281,11 @@ server {
 	include /etc/nginx/vhost.d/default;
 	{{ end }}
 
-    location /media {
-        alias /data/web/media;
-    }
+	location /media {
+		rewrite ^/(.*)/$ /$1 permanent;
+		try_files $uri =404;
+		root /data/web;
+	}
 
 	location / {
 		{{ if eq $proto "uwsgi" }}
