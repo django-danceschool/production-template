@@ -25,9 +25,10 @@ section {
 
 section h2 {
   text-align: center;
-  letter-spacing: 2pt;
+  letter-spacing: 3pt;
   text-transform: uppercase;
-  color: #133f35; }
+  color: #133f35;
+  font-weight: 500; }
 
 .bg-dark {
   background-color: #133f35 !important;
@@ -146,6 +147,9 @@ section h2 {
 .splash-section {
   font-size: 1.2rem;
   font-weight: 700; }
+  @media (min-width: 1200px) {
+    .splash-section {
+      margin-top: -141px; } }
 
 /* Front page cards */
 @media (max-width: 767px) {

@@ -45,9 +45,10 @@ section {
 
 section h2 {
   text-align: center;
-  letter-spacing: 2pt;
+  letter-spacing: 3pt;
   text-transform: uppercase;
   color: $color-primary;
+  font-weight: 500;
 }
 
 .bg-dark {
@@ -207,6 +208,10 @@ section h2 {
 .splash-section {
   font-size: 1.2rem;
   font-weight: 700;
+
+  @media (min-width: $navbar-break) {
+    margin-top: -1 * ($offset + 2px + $navbar-height);
+  }
 }
 
 /* Front page cards */
