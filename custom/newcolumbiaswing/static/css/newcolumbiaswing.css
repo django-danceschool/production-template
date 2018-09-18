@@ -11,10 +11,13 @@
 body {
   padding-top: 54px;
   font-family: "Rubik", sans-serif; }
+  @media (min-width: 992px) {
+    body {
+      padding-top: 56px; } }
 
-@media (min-width: 992px) {
-  body {
-    padding-top: 56px; } }
+#wrapper {
+  margin-top: 90px; }
+
 section {
   padding-top: 2em;
   padding-bottom: 2em;
@@ -51,25 +54,45 @@ section h2 {
   font-weight: 700;
   font-size: 1.1rem;
   text-transform: uppercase;
-  height: 85px;
+  height: 65px;
+  position: relative;
   z-index: 8;
-  top: 20px;
-  position: relative; }
+  top: -54px; }
+  @media (min-width: 768px) {
+    .navbar-top {
+      height: 85px; } }
+  @media (min-width: 1200px) {
+    .navbar-top {
+      top: 20px;
+      background-color: rgba(19, 63, 53, 0.85) !important; } }
 
 .navbar-brand-centered {
   position: absolute;
-  left: 50%;
+  right: 0;
   top: 0;
   display: block;
-  width: 220px;
-  height: 136px;
-  margin-left: -110px;
-  margin-top: -80px;
+  width: 100px;
+  height: 65px;
   z-index: 10;
-  text-align: center; }
-
-.navbar-brand-centered img {
-  max-width: 210px; }
+  text-align: center;
+  padding: 0; }
+  .navbar-brand-centered img {
+    max-height: 62px; }
+  @media (min-width: 768px) {
+    .navbar-brand-centered {
+      height: 85px; }
+      .navbar-brand-centered img {
+        max-height: 82px; } }
+  @media (min-width: 1200px) {
+    .navbar-brand-centered {
+      left: 50%;
+      width: 220px;
+      height: 136px;
+      margin-left: -110px;
+      margin-top: -75px; }
+      .navbar-brand-centered img {
+        max-width: 210px;
+        max-height: unset; } }
 
 .navbar-left {
   position: absolute;
@@ -95,17 +118,30 @@ section h2 {
 .splash-header {
   height: 75vh;
   min-height: 300px;
-  color: #f7f7dd; }
-
-.splash-header .bottom-column {
-  position: absolute;
-  bottom: 30px; }
-
-.splash-header h1 {
-  text-transform: uppercase;
-  font-weight: 700;
-  font-size: 4.5rem;
-  line-height: 1.1; }
+  color: #f7f7dd;
+  top: -54px;
+  position: relative; }
+  .splash-header:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.85), transparent 75px); }
+  @media (min-width: 1200px) {
+    .splash-header {
+      top: -141px; }
+      .splash-header:before {
+        background-image: linear-gradient(black, rgba(0, 0, 0, 0.5) 150px, transparent 200px); } }
+  .splash-header .bottom-column {
+    position: absolute;
+    bottom: 30px; }
+  .splash-header h1 {
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 4.5rem;
+    line-height: 1.1; }
 
 .splash-section {
   font-size: 1.2rem;
