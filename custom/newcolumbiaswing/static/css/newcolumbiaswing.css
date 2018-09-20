@@ -181,4 +181,12 @@ section h2 {
       border-right: 1px solid #133f35;
       border-bottom: 0; } }
 
+/* Card for Next Dance (change background later) */
+.nextdance {
+  background-color: #459b84; }
+  .nextdance .card {
+    border: 1px solid #f7f7dd;
+    background-color: transparent;
+    color: #f7f7dd; }
+
 /*# sourceMappingURL=newcolumbiaswing.css.map */

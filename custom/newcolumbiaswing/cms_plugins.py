@@ -5,6 +5,8 @@ from cms.models.pluginmodel import CMSPlugin
 from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
 
+from danceschool.core.registries import plugin_templates_registry, PluginTemplateBase
+
 
 class MailchimpSignupPlugin(CMSPluginBase):
     model = CMSPlugin
@@ -23,6 +25,34 @@ class MailchimpSignupPlugin(CMSPluginBase):
         })
 
         return context
+
+
+@plugin_templates_registry.register
+class NextDancePluginTemplate(PluginTemplateBase):
+    plugin = 'EventListPlugin'
+    template_name = 'events/event_nextdance.html'
+    description = _('Next Dance Section for Front Page')
+
+
+@plugin_templates_registry.register
+class NextSocialPluginTemplate(PluginTemplateBase):
+    plugin = 'EventListPlugin'
+    template_name = 'events/event_nextsocial.html'
+    description = _('Next Social Text for Front Page Cards')
+
+
+@plugin_templates_registry.register
+class NextSeriesPluginTemplate(PluginTemplateBase):
+    plugin = 'EventListPlugin'
+    template_name = 'events/event_nextseries.html'
+    description = _('Next Series for Front Page Cards')
+
+
+@plugin_templates_registry.register
+class NextSpecialPluginTemplate(PluginTemplateBase):
+    plugin = 'EventListPlugin'
+    template_name = 'events/event_nextspecial.html'
+    description = _('Next Special for Front Page Cards')
 
 
 plugin_pool.register_plugin(MailchimpSignupPlugin)

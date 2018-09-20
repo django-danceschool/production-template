@@ -1,0 +1,25 @@
+{% load danceschool_tags cms_tags i18n %}
+
+{% url 'registration' as registration_url %}
+{% for event in event_list %}
+<p><strong>{{ event.name }}</strong></p>
+
+<p>{% trans "Begins " %}{{ event.firstOccurrenceTime|date:"F jS" }}</p>
+
+<dl class="list-unstyled">
+<dt>Instructors:</dt>
+{% for teacher in event.teachers %}
+    <dd>{{ teacher.fullName }}</dd>
+{% empty %}
+    <dd>TBD</dd>
+{% endfor %}
+</dl>
+
+<p class="text-center">
+{% if registration_url and event.registrationOpen %}
+    <a href="{{ registration_url }}#{{ event.slug }}-{{ event.id }}" class="btn btn-primary">{% trans "Register" %}</a>
+{% else %}
+    <a href="{{ event.url }}" class="btn btn-primary">{% trans "Learn More" %}</a>
+{% endif %}
+</p>
+{% endfor %}

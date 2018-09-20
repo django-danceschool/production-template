@@ -263,3 +263,14 @@ section h2 {
   }
 
 }
+
+/* Card for Next Dance (change background later) */
+.nextdance {
+  background-color: $color-light;
+
+  .card {
+    border: 1px solid $color-offwhite;
+    background-color: transparent;
+    color: $color-offwhite;
+  }
+}

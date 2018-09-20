@@ -464,3 +464,6 @@ HEROKU_RELEASE_CREATED_AT = environ.get('HEROKU_RELEASE_CREATED_AT', None)
 
 #: The description of the current release. eg. "Deploy 2c3a0b2"
 HEROKU_RELEASE_DESCRIPTION = environ.get('HEROKU_RELEASE_DESCRIPTION', None)
+
+# Nightly backups (set in environment to enable)
+BACKUP_NIGHTLY_ENABLED = environ.get('BACKUP_NIGHTLY_ENABLED', False)
