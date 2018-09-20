@@ -10,11 +10,14 @@
         </div>
         {% for event in event_list %}
         <div class="row">
+            <div class="col-md-12 mt-4 mb-5">
+                <h3>{{ event.name }} at {{ event.location.name }}</h3>
+            </div>
             <div class="col-md-6">
                 <div class="card card-nextdance-time">
                     <div class="card-body">
                         <dl class="list-unstyled">
-                            <dt><a href="{{ event.url }}">{{ event.name}}</a></dt>
+                            <dt>When:</dt>
                             <dd>{{ event.nextOccurrenceTime|date:"l F j, Y" }}</dd>
                             <dd>{{ event.nextOccurrence.startTime|date:"P" }} - {{ event.nextOccurrence.endTime|date:"P" }}</dd>
                         </dl>
@@ -25,7 +28,7 @@
                 <div class="card card-nextdance-location">
                     <div class="card-body">
                         <dl class="list-unstyled">
-                            <dt>{{ event.location.name }}</dt>
+                            <dt>Where:</dt>
                             <dd>{{ event.location.address }}</dd>
                             <dd>{{ event.location.city }}, {{ event.location.state }} {{ event.location.zip }}</dd>
                         </dl>
@@ -34,11 +37,11 @@
             </div>
         </div>
         <div class="row">
-            <div class="col mt-4 text-center">
+            <div class="col mt-5 text-center">
             {% if registration_url and event.registrationOpen %}
-                <a href="{{ registration_url }}#{{ event.slug }}-{{ event.id }}" class="btn btn-primary">{% trans "Register Now" %} &raquo;</a>
+                <a href="{{ registration_url }}#{{ event.slug }}-{{ event.id }}" class="btn btn-lg btn-primary">{% trans "Register Now" %} &raquo;</a>
             {% else %}
-                <a href="{{ event.url }}" class="btn btn-primary">{% trans "Learn More" %} &raquo;</a>                
+                <a href="{{ event.url }}" class="btn btn-lg btn-primary">{% trans "Learn More" %} &raquo;</a>                
             {% endif %}
             </div>
         </div>

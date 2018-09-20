@@ -1,7 +1,7 @@
 /*!
  * New Columbia Swing stylesheet
  */
-.bg-building, .bg-crowd, .splash-header {
+.splash-header, .nextdance {
   -webkit-background-size: cover;
   -moz-background-size: cover;
   background-size: cover;
@@ -42,14 +42,6 @@ section h2 {
 .bg-white {
   background-color: #ffffff !important;
   color: #000000; }
-
-.bg-building {
-  /* background: url('') top center no-repeat scroll; */
-  color: #f7f7dd; }
-
-.bg-crowd {
-  /* background: url('') top center no-repeat scroll; */
-  color: #f7f7dd; }
 
 /* Navigation */
 .navbar-top {
@@ -110,11 +102,17 @@ section h2 {
 /* Buttons */
 .btn-primary, .btn-info {
   background-color: #459b84;
-  color: #f7f7dd; }
+  color: #f7f7dd;
+  border-color: #627d76; }
+  .btn-primary:hover, .btn-info:hover {
+    background-color: #133f35; }
 
 .btn-success {
   background-color: #133f35;
-  color: #f7f7dd; }
+  color: #f7f7dd;
+  border-color: #627d76; }
+  .btn-success:hover {
+    background-color: #459b84; }
 
 /* Front page splash */
 .splash-header {
@@ -200,12 +198,31 @@ section h2 {
       border-right: 1px solid #133f35;
       border-bottom: 0; } }
 
-/* Card for Next Dance (change background later) */
+/* Card for Next Dance */
 .nextdance {
-  background-color: #459b84; }
-  .nextdance .card {
-    border: 1px solid #f7f7dd;
-    background-color: transparent;
+  background-image: url("../images/JBPC_LocationImage.jpg");
+  background-repeat: no-repeat;
+  background-position-y: 20%; }
+  .nextdance h2 {
     color: #f7f7dd; }
+  .nextdance h3 {
+    text-transform: uppercase;
+    color: #ffffff; }
+  .nextdance .card {
+    font-weight: 500;
+    border: 1px solid #f7f7dd;
+    background-repeat: no-repeat;
+    background-position: 10% center;
+    background-size: 20% 70%;
+    color: #f7f7dd;
+    background-color: transparent; }
+    .nextdance .card .card-body {
+      text-align: left;
+      margin-left: 37%;
+      padding-left: 0; }
+  .nextdance .card-nextdance-time {
+    background-image: url("../images/NCS_Clock.svg"); }
+  .nextdance .card-nextdance-location {
+    background-image: url("../images/NCS_Pin.svg"); }
 
 /*# sourceMappingURL=newcolumbiaswing.css.map */

@@ -12,6 +12,7 @@ $font: 'Rubik', sans-serif;
 $color-primary: #133f35;
 $color-primary-translucent: rgba(19, 63, 53, 0.85);
 $color-light: #459b84;
+$color-midgray: #627d76;
 $color-offwhite: #f7f7dd;
 $color-white: #ffffff;
 $color-black: #000000;
@@ -65,18 +66,6 @@ section h2 {
 .bg-white {
   background-color: $color-white!important;
   color: $color-black;
-}
-
-.bg-building {
-  @extend %cover;
-  /* background: url('') top center no-repeat scroll; */
-  color: $color-offwhite;
-}
-
-.bg-crowd {
-  @extend %cover;
-  /* background: url('') top center no-repeat scroll; */
-  color: $color-offwhite;
 }
 
 /* Navigation */
@@ -158,11 +147,21 @@ section h2 {
 .btn-primary, .btn-info {
   background-color: $color-light;
   color: $color-offwhite;
+  border-color: $color-midgray;
+
+  &:hover {
+    background-color: $color-primary;
+  }
 }
 
 .btn-success {
   background-color: $color-primary;
   color: $color-offwhite;
+  border-color: $color-midgray;
+
+  &:hover {
+    background-color: $color-light;
+  }
 }
 
 /* Front page splash */
@@ -296,13 +295,46 @@ section h2 {
 
 }
 
-/* Card for Next Dance (change background later) */
+/* Card for Next Dance */
 .nextdance {
-  background-color: $color-light;
 
-  .card {
-    border: 1px solid $color-offwhite;
-    background-color: transparent;
+  @extend %cover;
+  background-image: url('../images/JBPC_LocationImage.jpg');
+  background-repeat: no-repeat;
+  background-position-y: 20%;
+
+  h2 {
     color: $color-offwhite;
   }
+
+  h3 {
+    text-transform: uppercase;
+    color: $color-white;
+  }
+
+  .card {
+    font-weight: 500;
+    border: 1px solid $color-offwhite;
+    background-repeat: no-repeat;
+    background-position: 10% center;
+    background-size: 20% 70%;
+    color: $color-offwhite;
+    background-color: transparent;
+
+    .card-body {
+      text-align: left;
+      margin-left: 37%;
+      padding-left: 0;
+    }
+
+  }
+
+  .card-nextdance-time {
+    background-image: url('../images/NCS_Clock.svg');
+  }
+
+  .card-nextdance-location {
+    background-image: url('../images/NCS_Pin.svg');
+  }
+
 }
