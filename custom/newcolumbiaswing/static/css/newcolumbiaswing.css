@@ -159,8 +159,26 @@ section h2 {
   .footer-logo-centered img {
     max-width: 210px; }
 
-.footer-social-links img {
-  max-width: 40px; }
+.footer-social-links {
+  text-align: center; }
+  .footer-social-links .footer-svg {
+    width: 40px;
+    height: 40px;
+    background-repeat: no-repeat;
+    background-position: center center;
+    display: inline-block; }
+  .footer-social-links .footer-svg-facebook {
+    background-image: url("../images/NCS_SocialFace_1.svg"); }
+    .footer-social-links .footer-svg-facebook:hover {
+      background-image: url("../images/NCS_SocialFace_2.svg"); }
+  .footer-social-links .footer-svg-instagram {
+    background-image: url("../images/NCS_SocialInsta_1.svg"); }
+    .footer-social-links .footer-svg-instagram:hover {
+      background-image: url("../images/NCS_SocialInsta_2.svg"); }
+  .footer-social-links .footer-svg-email {
+    background-image: url("../images/NCS_SocialMail_1.svg"); }
+    .footer-social-links .footer-svg-email:hover {
+      background-image: url("../images/NCS_SocialMail_2.svg"); }
 
 /* Front page cards */
 @media (max-width: 767px) {
