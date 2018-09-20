@@ -209,6 +209,7 @@ section h2 {
 .splash-section {
   font-size: 1.2rem;
   font-weight: 700;
+  margin-top: -1 * ($offset);
 
   @media (min-width: $navbar-break) {
     margin-top: -1 * ($offset + 2px + $navbar-height);

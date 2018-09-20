@@ -147,7 +147,8 @@ section h2 {
 
 .splash-section {
   font-size: 1.2rem;
-  font-weight: 700; }
+  font-weight: 700;
+  margin-top: -54px; }
   @media (min-width: 1200px) {
     .splash-section {
       margin-top: -141px; } }
