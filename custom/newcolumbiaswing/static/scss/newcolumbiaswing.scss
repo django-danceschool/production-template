@@ -250,6 +250,17 @@ section h2 {
 }
 
 /* Footer */
+
+footer a {
+  color: $color-offwhite;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+    color: $color-light;
+  }
+}
+
 .footer-logo-centered {
   text-align: center;
 

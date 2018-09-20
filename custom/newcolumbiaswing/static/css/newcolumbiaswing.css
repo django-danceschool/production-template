@@ -170,6 +170,13 @@ section h2 {
       margin-top: -141px; } }
 
 /* Footer */
+footer a {
+  color: #f7f7dd;
+  text-decoration: none; }
+  footer a:hover {
+    text-decoration: underline;
+    color: #459b84; }
+
 .footer-logo-centered {
   text-align: center; }
   .footer-logo-centered img {
