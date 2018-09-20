@@ -29,7 +29,8 @@ section h2 {
   letter-spacing: 3pt;
   text-transform: uppercase;
   color: #133f35;
-  font-weight: 500; }
+  font-weight: 500;
+  margin-bottom: 1.5rem !important; }
 
 .bg-dark {
   background-color: #133f35 !important;
