@@ -89,16 +89,33 @@ section h2 {
         max-width: 210px;
         max-height: unset; } }
 
-.navbar-left {
-  position: absolute;
-  right: calc(50% + 120px); }
-
-.navbar-right {
-  position: absolute;
-  left: calc(50% + 120px); }
-
-.navbar-nav li {
+.navbar-collapse .navbar-nav li {
   margin: 0 1.5em; }
+@media (min-width: 1200px) {
+  .navbar-collapse .navbar-left {
+    position: absolute;
+    right: calc(50% + 120px); }
+  .navbar-collapse .navbar-right {
+    position: absolute;
+    left: calc(50% + 120px); } }
+@media (max-width: 767px) {
+  .navbar-collapse {
+    top: 65px !important; } }
+@media (max-width: 1199px) {
+  .navbar-collapse {
+    z-index: 20;
+    position: absolute;
+    top: 85px;
+    left: 0;
+    width: 100%; }
+    .navbar-collapse .navbar-nav {
+      background: #f7f7dd; }
+      .navbar-collapse .navbar-nav .nav-link {
+        color: #000000;
+        margin-left: 1rem; }
+        .navbar-collapse .navbar-nav .nav-link:hover {
+          color: #133f35;
+          font-weight: 700; } }
 
 /* Buttons */
 .btn-primary, .btn-info {

@@ -128,20 +128,53 @@ section h2 {
 
 }
 
-.navbar-left {
-  position: absolute;
-  right: calc(50% + 120px);
-}
+.navbar-collapse {
 
-.navbar-right {
-  position: absolute;
-  left: calc(50% + 120px);
-}
+  .navbar-nav li {
+    margin: 0 1.5em;
+  }
+  
+  @media (min-width: $navbar-break) {
 
-.navbar-nav li {
-  margin: 0 1.5em;
-}
+    .navbar-left {
+      position: absolute;
+      right: calc(50% + 120px);
+    }
+    
+    .navbar-right {
+      position: absolute;
+      left: calc(50% + 120px);
+    }
 
+  }
+
+  @media (max-width: $navbar-bigger - 1px) {
+      top: $navbar-height-mobile!important;
+  }
+
+  @media (max-width: $navbar-break - 1px) {
+    z-index: 20;
+    position:absolute;
+      top: $navbar-height;
+    left: 0;
+    width: 100%;    
+
+    .navbar-nav {
+      background: $color-offwhite;
+
+      .nav-link {
+        color: $color-black;
+        margin-left: 1rem;
+
+        &:hover {
+          color: $color-primary;
+          font-weight: 700;    
+        }
+      }
+    }
+
+  }
+}
 
 /* Buttons */
 
