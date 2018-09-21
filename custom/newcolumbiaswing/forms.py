@@ -25,7 +25,7 @@ class NCSContactForm(RegistrationContactForm):
         label='<strong>I agree to the Code of Conduct, and I have read and agree to the Waiver and Release of Liability (required)</strong>',
         help_text='By checking, you agree to abide by all <a href="/policies/" target="_blank">Policies</a>, including the <a href="/conduct/" target="_blank">Code of Conduct</a>.  You also certify that you have read and agree to the <a href="/policies/waiver/" target="_blank">Waiver and Release of Liability</a>.'
     )
-    mailList = forms.BooleanField(required=False,label='Add me to the New Columbia Swing mailing list', help_text='Get occasional updates. We make sure that it\'s easy to unsubscribe if you change your mind.')
+    mailList = forms.BooleanField(required=False,initial=True,label='Add me to the New Columbia Swing mailing list', help_text='Get occasional updates. We make sure that it\'s easy to unsubscribe if you change your mind.')
     isMinor = forms.BooleanField(required=False,label='I am less than 18 years of age')
     gift = forms.CharField(required=False,label='Voucher/Gift Certificate ID')
     howHeardAboutUs = forms.ChoiceField(choices=HOW_HEARD_CHOICES,required=False,label='How did you hear about us?',help_text='Optional')
