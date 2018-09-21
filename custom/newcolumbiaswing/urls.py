@@ -4,7 +4,7 @@ from django.views.generic.base import RedirectView
 from danceschool.core.classreg import StudentInfoView
 
 from .forms import NCSContactForm
-from danceschool.core.views import StudentInfoView
+from danceschool.core.classreg import StudentInfoView
 
 urlpatterns = [
     # This should override the existing student info view to use our custom form.
