@@ -44,6 +44,14 @@ section h2 {
   background-color: #ffffff !important;
   color: #000000; }
 
+.text-primary {
+  color: #133f35 !important; }
+
+.text-callout {
+  font-style: italic;
+  font-weight: 500;
+  font-size: 1.7rem; }
+
 /* Navigation */
 .navbar-top {
   font-weight: 700;

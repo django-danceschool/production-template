@@ -69,6 +69,17 @@ section h2 {
   color: $color-black;
 }
 
+.text-primary {
+  color: $color-primary!important;
+
+}
+
+.text-callout {
+  font-style: italic;
+  font-weight: 500;
+  font-size: 1.7rem;
+}
+
 /* Navigation */
 .navbar-top {
   font-weight: 700;
