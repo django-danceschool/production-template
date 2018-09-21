@@ -47,6 +47,9 @@ section h2 {
 .text-primary {
   color: #133f35 !important; }
 
+.text-secondary {
+  color: #459b84 !important; }
+
 .text-callout {
   font-style: italic;
   font-weight: 500;

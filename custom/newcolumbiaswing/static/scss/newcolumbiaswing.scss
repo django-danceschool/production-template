@@ -11,7 +11,7 @@ $navbar-offset: 20px;
 $font: 'Rubik', sans-serif;
 $color-primary: #133f35;
 $color-primary-translucent: rgba(19, 63, 53, 0.85);
-$color-light: #459b84;
+$color-secondary: #459b84;
 $color-midgray: #627d76;
 $color-offwhite: #f7f7dd;
 $color-white: #ffffff;
@@ -60,7 +60,7 @@ section h2 {
 }
 
 .bg-secondary {
-  background-color: $color-light!important;
+  background-color: $color-secondary!important;
   color: $color-offwhite;
 }
 
@@ -71,7 +71,10 @@ section h2 {
 
 .text-primary {
   color: $color-primary!important;
+}
 
+.text-secondary {
+  color: $color-secondary!important;
 }
 
 .text-callout {
@@ -190,7 +193,7 @@ section h2 {
 /* Buttons */
 
 .btn-primary, .btn-info {
-  background-color: $color-light;
+  background-color: $color-secondary;
   color: $color-offwhite;
   border-color: $color-midgray;
 
@@ -205,7 +208,7 @@ section h2 {
   border-color: $color-midgray;
 
   &:hover {
-    background-color: $color-light;
+    background-color: $color-secondary;
   }
 }
 
@@ -268,7 +271,7 @@ footer a {
 
   &:hover {
     text-decoration: underline;
-    color: $color-light;
+    color: $color-secondary;
   }
 }
 
