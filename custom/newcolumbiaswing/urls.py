@@ -3,7 +3,7 @@ from django.views.generic.base import RedirectView
 
 from danceschool.core.classreg import StudentInfoView
 
-from .forms import BLHContactForm
+from .forms import NCSContactForm
 from danceschool.core.views import StudentInfoView
 
 urlpatterns = [
