@@ -26,7 +26,7 @@ urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 urlpatterns += [
     # Include your own app's URLs first to override default app URLs
-    # url(r'^', include('<yourapp>.urls')),
+    url(r'^', include('newcolumbiaswing.urls')),
     # Now, include default app URLs
     url(r'^', include('danceschool.urls')),
     url(r'^', include('cms.urls')),
