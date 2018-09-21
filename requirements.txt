@@ -22,6 +22,7 @@ django-imagekit>=3.3
 django-multiselectfield>=0.1.5
 django-polymorphic>=1.0.2
 django-sekizai>=0.10.0
+django-sendgrid-v5>=0.6.8
 django-storages
 Django>=1.11.15,<2.0
 djangocms-admin-style>=1.2.6.2
@@ -41,7 +42,6 @@ python-dateutil>=2.4.1
 pytz>=2017.2
 redis>=2.10.6
 requests>=2.6.0
-sendgrid-django>=4.2.0
 six>=1.10.0
 squareconnect>=2.20180712.3
 stripe>=1.62.0

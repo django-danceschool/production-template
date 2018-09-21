@@ -414,7 +414,7 @@ if STRIPE_PUBLIC_KEY and STRIPE_PRIVATE_KEY:
 if (
     'SENDGRID_API_KEY' in environ
 ):
-    EMAIL_BACKEND = 'sgbackend.SendGridBackend'
+    EMAIL_BACKEND = 'sendgrid_backend.SendgridBackend'
     SENDGRID_API_KEY = environ.get('SENDGRID_API_KEY')
 
 elif 'EMAIL_URL' in environ:
