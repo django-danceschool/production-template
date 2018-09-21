@@ -467,3 +467,7 @@ HEROKU_RELEASE_DESCRIPTION = environ.get('HEROKU_RELEASE_DESCRIPTION', None)
 
 # Nightly backups (set in environment to enable)
 BACKUP_NIGHTLY_ENABLED = environ.get('BACKUP_NIGHTLY_ENABLED', False)
+
+# Mailchimp integration
+MAILCHIMP_API_KEY = environ.get('MAILCHIMP_API_KEY','')
+MAILCHIMP_LIST_ID = environ.get('MAILCHIMP_LIST_ID','')
