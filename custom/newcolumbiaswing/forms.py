@@ -10,7 +10,6 @@ from danceschool.core.constants import getConstant, REG_VALIDATION_STR
 from danceschool.core.models import Event, PublicEvent
 
 from .constants import HOW_HEARD_CHOICES
-from .helpers import get_model_choices
 
 
 class NCSContactForm(RegistrationContactForm):
