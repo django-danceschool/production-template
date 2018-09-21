@@ -55,4 +55,25 @@ class NextSpecialPluginTemplate(PluginTemplateBase):
     description = _('Next Special for Front Page Cards')
 
 
+@plugin_templates_registry.register
+class NextSeriesClassesPluginTemplate(PluginTemplateBase):
+    plugin = 'EventListPlugin'
+    template_name = 'events/event_nextseries_classespage.html'
+    description = _('Next Series for Classes Page Cards')
+
+
+@plugin_templates_registry.register
+class NextSocialDancingPluginTemplate(PluginTemplateBase):
+    plugin = 'EventListPlugin'
+    template_name = 'events/event_nextsocial_dancingpage.html'
+    description = _('Next Social Text for Dancing Page Cards')
+
+
+@plugin_templates_registry.register
+class NextSpecialDancingPluginTemplate(PluginTemplateBase):
+    plugin = 'EventListPlugin'
+    template_name = 'events/event_nextspecial_dancingpage.html'
+    description = _('Next Special Text for Dancing Page Cards')
+
+
 plugin_pool.register_plugin(MailchimpSignupPlugin)
