@@ -44,6 +44,12 @@ section h2 {
   background-color: #ffffff !important;
   color: #000000; }
 
+.border-dark, .border-primary {
+  border-color: #133f35; }
+
+.border-secondary {
+  border-color: #459b84; }
+
 .text-primary {
   color: #133f35 !important; }
 

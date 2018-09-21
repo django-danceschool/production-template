@@ -69,6 +69,14 @@ section h2 {
   color: $color-black;
 }
 
+.border-dark, .border-primary {
+  border-color: $color-primary;
+}
+
+.border-secondary {
+  border-color: $color-secondary;
+}
+
 .text-primary {
   color: $color-primary!important;
 }
