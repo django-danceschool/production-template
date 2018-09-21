@@ -70,11 +70,11 @@ section h2 {
 }
 
 .border-dark, .border-primary {
-  border-color: $color-primary;
+  border-color: $color-primary!important;
 }
 
 .border-secondary {
-  border-color: $color-secondary;
+  border-color: $color-secondary!important;
 }
 
 .text-primary {
