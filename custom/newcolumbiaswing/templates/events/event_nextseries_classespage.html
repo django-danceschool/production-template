@@ -13,7 +13,12 @@
             {% if groupSecond.grouper %}<h5>{{ groupSecond.grouper }}</h5>{% endif %}
             <ul>            
                 {% for event in groupSecond.list %}
-                    <li><a href="{{ event.url }}">{{ event.name }}</a></li>
+                    <li>
+                        <a href="{{ event.url }}">{{ event.name }}</a>:
+                        {% for occurrence in event.eventoccurrence_set.all %}
+                            {{ occurrence.startTime|date:"N jS" }}{% if not forloop.last %}, {% endif %}
+                        {% endfor %}
+                    </li>
                 {% endfor %}
             </ul>
         {% endfor %}
