@@ -49,6 +49,13 @@ class NextSeriesPluginTemplate(PluginTemplateBase):
 
 
 @plugin_templates_registry.register
+class NextSeriesShortPluginTemplate(PluginTemplateBase):
+    plugin = 'EventListPlugin'
+    template_name = 'events/event_nextseries_compact.html'
+    description = _('Next Series for Front Page Cards (compact)')
+
+
+@plugin_templates_registry.register
 class NextSpecialPluginTemplate(PluginTemplateBase):
     plugin = 'EventListPlugin'
     template_name = 'events/event_nextspecial.html'
