@@ -63,7 +63,7 @@ services:
       - nginx
 
   postgres:
-    image: postgres:latest
+    image: postgres:10.6
     hostname: postgres
     deploy:
       replicas: 1
