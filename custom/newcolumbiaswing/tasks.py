@@ -43,7 +43,7 @@ def backupDatabase():
     if hasattr(settings,'BACKUP_NIGHTLY_ENABLED'):
         if settings.BACKUP_NIGHTLY_ENABLED:
             from django.core.management import call_command
-            backup_file = settings.DIR_NAME + '/../backup/web_data_' + timezone.now().strftime('%Y%m%d') + '.json'
+            backup_file = settings.BASE_DIR + '/../../backup/web_data_' + timezone.now().strftime('%Y%m%d') + '.json'
             logger.info('Beginning JSON backup to file ' + backup_file + '.')
             with open(backup_file,'w') as f:
                 try:
@@ -68,7 +68,7 @@ def backupDatabaseSFTP():
             transport.connect(username=settings.BACKUP_SFTP_USER, password=settings.BACKUP_SFTP_PASS)
             sftp = paramiko.SFTPClient.from_transport(transport)
             remote_path = settings.BACKUP_SFTP_PATH
-            backup_path = settings.DIR_NAME + '/../backup/'
+            backup_path = settings.BASE_DIR + '/../../backup/'
             backup_file = 'web_data_' + timezone.now().strftime('%Y%m%d') + '.json'
             try:
                 sftp.chdir(remote_path)
