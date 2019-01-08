@@ -297,7 +297,7 @@ build_web () {
     fi
 
     echo "Preparing to build Django image. This may take a few minutes."
-    docker build --no-cache -f ${BASH_SOURCE%/*}/web/Dockerfile -t danceschool_web .
+    docker build --no-cache -f ${BASH_SOURCE%/*}/web/Dockerfile -t danceschool_web ${BASH_SOURCE%/*}/../
     echo "Django image built successfully."
 }
 

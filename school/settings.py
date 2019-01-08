@@ -120,6 +120,9 @@ INSTALLED_APPS = [
     # 'danceschool.private_lessons',
 
     # Note: Payment processor apps are automatically enabled/disabled below.
+    # Except for the "Pay at door" app, which requires no external configuation
+    # tokens or other environment variables to be present.
+    # 'danceschool.payments.payatdoor',
 
     # These are required for the CMS
     'menus',
