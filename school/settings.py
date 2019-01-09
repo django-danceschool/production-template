@@ -309,9 +309,9 @@ LOGGING = {
         },
     },
     'handlers': {
-        # Send all messages to console
+        # Send messages to console based on environment logging level
         'console': {
-            'level': 'DEBUG',
+            'level': environ.get('LOGGING_LEVEL','DEBUG'),
             'class': 'logging.StreamHandler',
         },
         # Send info messages to syslog
