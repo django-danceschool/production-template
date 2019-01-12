@@ -114,6 +114,7 @@ INSTALLED_APPS = [
     'danceschool.faq',
     'danceschool.banlist',
     'danceschool.guestlist',
+    'danceschool.backups',
 
     # ## Uncomment to add private lesson scheduling functionality:
     # 'danceschool.private_lessons',
@@ -441,6 +442,11 @@ CACHES = {
 
 SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 SESSION_CACHE_ALIAS = "default"
+
+# If the danceschool.backups app is enabled, this setting defines the location
+# where backups are saved. Docker users note that this path should be correct
+# *inside* the Docker container, not outside of it. 
+BACKUP_LOCATION = environ.get('BACKUP_LOCATION','/backup')
 
 #: Useful settings if you are running on Heroku
 #: The unique identifier for the application. eg. "9daa2797-e49b-4624-932f-ec3f9688e3da"
