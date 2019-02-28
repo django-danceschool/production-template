@@ -21,7 +21,7 @@ class NCSContactForm(RegistrationContactForm):
     agreeToPolicies = forms.BooleanField(
         required=True,
         label='<strong>I agree to the Code of Conduct, and I have read and agree to the Waiver and Release of Liability (required)</strong>',
-        help_text='By checking, you agree to abide by all <a href="/policies/" target="_blank">Policies</a>, including the <a href="/conduct/" target="_blank">Code of Conduct</a>.  You also certify that you have read and agree to the <a href="/policies/waiver/" target="_blank">Waiver and Release of Liability</a>.'
+        help_text='By checking, you agree to abide by all <a href="/about/policies/" target="_blank">Policies</a>, including the <a href="/about/conduct/" target="_blank">Code of Conduct</a>.  You also certify that you have read and agree to the <a href="/media/filer_public/5c/27/5c276d48-f293-4398-8968-c9b840958b96/new_columbia_swing_waiver_and_release_of_liability.pdf" target="_blank">Waiver and Release of Liability</a>.'
     )
     mailList = forms.BooleanField(required=False,initial=True,label='Add me to the New Columbia Swing mailing list', help_text='Get occasional updates. We make sure that it\'s easy to unsubscribe if you change your mind.')
     isMinor = forms.BooleanField(required=False,label='I am less than 18 years of age')
