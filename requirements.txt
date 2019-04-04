@@ -30,7 +30,7 @@ djangocms-forms>=0.2.5
 -e git+https://github.com/divio/djangocms-text-ckeditor.git#egg=djangocms_text_ckeditor
 easy-thumbnails>=2.3
 gunicorn==19.6.0
-huey>=1.3.1
+huey>=1.3.1,<2.0
 icalendar>=3.9.0
 intervaltree>=2.1.0
 paypalrestsdk>=1.12.0

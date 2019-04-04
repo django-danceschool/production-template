@@ -415,9 +415,8 @@ STRIPE_PRIVATE_KEY = environ.get('STRIPE_PRIVATE_KEY')
 if STRIPE_PUBLIC_KEY and STRIPE_PRIVATE_KEY:
     INSTALLED_APPS.append('danceschool.payments.stripe')
 
-# Set Email using dj_email_url which parses $EMAIL_URL.
-# Note: Sendgrid has been removed becuase of API issues; use
-# SMTP integration for Sendgrid.
+# This configures email through dj_email_url by parsing $EMAIL_URL, which is
+# set in env.default. Sendgrid and Gmail both use SMTP.
 if 'EMAIL_URL' in environ:
     email_config = dj_email_url.config()
     EMAIL_FILE_PATH = email_config.get('EMAIL_FILE_PATH')
