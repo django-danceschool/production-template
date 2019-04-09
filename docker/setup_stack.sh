@@ -68,7 +68,7 @@ check_postgres_secrets () {
     # Persistent data volumes can be created repeatedly with no ill effects, so ensure at the outset
     # that the volume for the Postgres data exists.
     docker volume create danceschool_postgres
-    docker run -d --name danceschool_postgres_temp -v danceschool_postgres:/var/lib/postgresql/data postgres:latest
+    docker run -d --name danceschool_postgres_temp -v danceschool_postgres:/var/lib/postgresql/data postgres:10.6
     sleep 3;
 
     # These need to be checked individually first in case some are specified and others are not.

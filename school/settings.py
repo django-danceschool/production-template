@@ -115,6 +115,7 @@ INSTALLED_APPS = [
     'danceschool.faq',
     'danceschool.banlist',
     'danceschool.guestlist',
+    'danceschool.backups',
 
     # ## Uncomment to add private lesson scheduling functionality:
     # 'danceschool.private_lessons',
@@ -415,9 +416,8 @@ STRIPE_PRIVATE_KEY = environ.get('STRIPE_PRIVATE_KEY')
 if STRIPE_PUBLIC_KEY and STRIPE_PRIVATE_KEY:
     INSTALLED_APPS.append('danceschool.payments.stripe')
 
-# Set Email using dj_email_url which parses $EMAIL_URL.
-# Note: Sendgrid has been removed becuase of API issues; use
-# SMTP integration for Sendgrid.
+# This configures email through dj_email_url by parsing $EMAIL_URL, which is
+# set in env.default. Sendgrid and Gmail both use SMTP.
 if 'EMAIL_URL' in environ:
     email_config = dj_email_url.config()
     EMAIL_FILE_PATH = email_config.get('EMAIL_FILE_PATH')
@@ -442,6 +442,11 @@ CACHES = {
 
 SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 SESSION_CACHE_ALIAS = "default"
+
+# If the danceschool.backups app is enabled, this setting defines the location
+# where backups are saved. Docker users note that this path should be correct
+# *inside* the Docker container, not outside of it. 
+BACKUP_LOCATION = environ.get('BACKUP_LOCATION','/backup')
 
 #: Useful settings if you are running on Heroku
 #: The unique identifier for the application. eg. "9daa2797-e49b-4624-932f-ec3f9688e3da"
