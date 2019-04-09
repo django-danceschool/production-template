@@ -115,7 +115,7 @@ INSTALLED_APPS = [
     'danceschool.faq',
     'danceschool.banlist',
     'danceschool.guestlist',
-    'danceschool.backups',
+    # 'danceschool.backups',
 
     # ## Uncomment to add private lesson scheduling functionality:
     # 'danceschool.private_lessons',
