@@ -3,7 +3,7 @@ FROM alpine
 # Initialize
 RUN mkdir -p /data/web
 WORKDIR /data/web
-COPY ./docker/web/requirements.txt /data/web/
+COPY ./requirements.txt /data/web/
 COPY ./custom/requirements.txt /data/web/requirements_custom.txt
 COPY manage.py /data/web
 
