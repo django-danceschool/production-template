@@ -1,0 +1,57 @@
+{% load danceschool_tags cms_tags i18n %}
+
+{% url 'registration' as registration_url %}
+<a name="next-dance"></a>
+<section class="nextdance">
+    <div class="container">
+        <div clas="row">
+            <div class="col mb-4">
+                {% if instance.title %}<h2>{{ instance.title }}</h2>{% endif %}
+            </div>
+        </div>
+        {% for event in event_list %}
+        <div class="row">
+            <div class="col-md-12 mt-4 mb-5">
+                <h3>{{ event.name }} at {{ event.location.name }}</h3>
+            </div>
+            <div class="col-md-6">
+                <div class="card card-nextdance-time">
+                    <div class="card-body">
+                        <dl class="list-unstyled">
+                            <dt>When:</dt>
+                            <dd>{{ event.nextOccurrenceTime|date:"l F j, Y" }}</dd>
+                            <dd>{{ event.nextOccurrence.startTime|date:"P" }} - {{ event.nextOccurrence.endTime|date:"P" }}</dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card card-nextdance-location">
+                    <div class="card-body">
+                        <dl class="list-unstyled">
+                            <dt>Where:</dt>
+                            <dd>{{ event.location.address }}</dd>
+                            <dd>{{ event.location.city }}, {{ event.location.state }} {{ event.location.zip }}</dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col mt-5 text-center">
+            {% if registration_url and event.registrationOpen %}
+                <a href="{{ registration_url }}#{{ event.slug }}-{{ event.id }}" class="btn btn-lg btn-primary">{% trans "Register Now" %} &raquo;</a>
+            {% else %}
+                <a href="{{ event.url }}" class="btn btn-lg btn-primary">{% trans "Learn More" %} &raquo;</a>                
+            {% endif %}
+            </div>
+        </div>
+        {% empty %}
+        <div class="row">
+            <div class="col-md-12">
+                <p>{% trans "Coming Soon!" %}</p>
+            </div>
+        </div>        
+        {% endfor %}
+    </div>
+</section>

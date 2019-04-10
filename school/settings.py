@@ -85,6 +85,7 @@ INSTALLED_APPS = [
     # ## Typically, if you have a custom app for custom functionality,
     # ## it will be added here:
     # '< my_custom_app >',
+    'newcolumbiaswing',
 
     # The project provides some default theming options, including easy Bootstrap 4
     # plugins. As additional themes are included in the project, they should be added
@@ -114,7 +115,7 @@ INSTALLED_APPS = [
     'danceschool.faq',
     'danceschool.banlist',
     'danceschool.guestlist',
-    'danceschool.backups',
+    # 'danceschool.backups',
 
     # ## Uncomment to add private lesson scheduling functionality:
     # 'danceschool.private_lessons',
@@ -468,3 +469,10 @@ HEROKU_RELEASE_CREATED_AT = environ.get('HEROKU_RELEASE_CREATED_AT', None)
 
 #: The description of the current release. eg. "Deploy 2c3a0b2"
 HEROKU_RELEASE_DESCRIPTION = environ.get('HEROKU_RELEASE_DESCRIPTION', None)
+
+# Nightly backups (set in environment to enable)
+BACKUP_NIGHTLY_ENABLED = environ.get('BACKUP_NIGHTLY_ENABLED', False)
+
+# Mailchimp integration
+MAILCHIMP_API_KEY = environ.get('MAILCHIMP_API_KEY','')
+MAILCHIMP_LIST_ID = environ.get('MAILCHIMP_LIST_ID','')
