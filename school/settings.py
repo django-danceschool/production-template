@@ -85,7 +85,6 @@ INSTALLED_APPS = [
     # ## Typically, if you have a custom app for custom functionality,
     # ## it will be added here:
     # '< my_custom_app >',
-    'newcolumbiaswing',
 
     # The project provides some default theming options, including easy Bootstrap 4
     # plugins. As additional themes are included in the project, they should be added
