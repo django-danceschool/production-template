@@ -177,9 +177,6 @@ INSTALLED_APPS = [
     # Makes Django CMS prettier
     'djangocms_admin_style',
 
-    # Provides configurable feedback and response forms
-    'djangocms_forms',
-
     # This allows for PDF export of views
     'easy_pdf',
 
