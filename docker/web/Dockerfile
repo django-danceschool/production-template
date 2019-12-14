@@ -10,7 +10,7 @@ COPY manage.py /data/web
 # Setup
 RUN apk update
 RUN apk upgrade
-RUN apk add --update python3 python3-dev postgresql-client postgresql-dev build-base gettext zlib-dev jpeg-dev libffi-dev git
+RUN apk add --update python3 python3-dev postgresql-client postgresql-dev build-base gettext zlib-dev jpeg-dev libffi-dev git gcc musl-dev cairo-dev pango-dev gdk-pixbuf-dev ttf-liberation
 RUN pip3 install --upgrade pip
 RUN pip3 install -r requirements.txt
 RUN pip3 install -r requirements_custom.txt

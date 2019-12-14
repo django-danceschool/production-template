@@ -1,4 +1,4 @@
-Django>=1.11.15,<2.0
+Django>=2.2,<3.0
 django-danceschool>=0.8.5
 redis>=2.10.6
 django-redis>=4.10.0
