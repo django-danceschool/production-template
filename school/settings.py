@@ -114,7 +114,7 @@ INSTALLED_APPS = [
     'danceschool.faq',
     'danceschool.banlist',
     'danceschool.guestlist',
-    'dancechool.register',
+    'danceschool.register',
     'danceschool.merch',
     # 'danceschool.backups',
 
