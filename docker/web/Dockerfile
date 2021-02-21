@@ -1,4 +1,4 @@
-FROM alpine
+FROM python:3.9-slim-buster
 
 # Initialize
 RUN mkdir -p /data/web
@@ -8,9 +8,9 @@ COPY ./custom/requirements.txt /data/web/requirements_custom.txt
 COPY manage.py /data/web
 
 # Setup
-RUN apk update
-RUN apk upgrade
-RUN apk add --update python3 python3-dev py-pip postgresql-client postgresql-dev build-base gettext zlib-dev jpeg-dev libffi-dev git gcc musl-dev cairo-dev pango-dev gdk-pixbuf-dev ttf-liberation
+RUN apt-get update
+RUN apt-get -y upgrade
+RUN apt-get -y install postgresql-client gettext gcc gettext zlib1g libjpeg-dev python3-cffi libffi-dev git musl-dev libpango-1.0-0 libpangocairo-1.0-0 python3-cairo-dev libjxr-tools libgdk-pixbuf2.0-dev shared-mime-info fonts-liberation2
 RUN pip3 install --upgrade pip
 RUN pip3 install -r requirements.txt
 RUN pip3 install -r requirements_custom.txt
@@ -19,7 +19,8 @@ RUN pip3 install -r requirements_custom.txt
 ENV PYTHONPATH "$PYTHONPATH:/data/web/custom"
 
 # Clean
-RUN apk del -r python3-dev postgresql git
+RUN apt-get -y remove postgresql-client git
+RUN apt -y autoremove
 
 # Prepare
 COPY ./school/ /data/web/school/

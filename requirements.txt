@@ -1,14 +1,13 @@
 boto3>=1.4.7
 dj-database-url>=0.4.2
 dj-email-url>=0.0.10
-django-danceschool>=0.8.5
+django-danceschool>=0.9.0
 django-redis>=4.10.0
 django-storages>=1.6.5
-Django>=1.11.15,<2.0
 gunicorn>=19.6.0
 paypalrestsdk>=1.12.0
 peewee>=2.10.1
-psycopg2>=2.7
+psycopg2-binary>=2.8.6
 redis>=2.10.6
 squareconnect>=2.20180712.3
 stripe>=1.62.0

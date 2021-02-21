@@ -14,7 +14,7 @@ services:
       - postgres_url
       - django_secret_key
     working_dir: /data/web
-    command: top
+    tty: true
     networks:
       danceschool_default:
         aliases:
