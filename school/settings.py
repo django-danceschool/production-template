@@ -373,6 +373,9 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
+# Required to ensure that Django CMS admin frames load with Django 3.0+
+X_FRAME_OPTIONS = 'SAMEORIGIN'
+
 # AWS must be configured in the environment variables.  If it is
 # not configured, then the project will default to local storage.
 if (
