@@ -92,6 +92,7 @@ services:
       replicas: 1
     env_file: 
      - env.default
+     - env.web
     secrets:
       - postgres_url
       - django_secret_key
