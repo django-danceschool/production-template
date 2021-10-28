@@ -52,6 +52,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - certs:/etc/nginx/certs:rw
       - vhost.d:/etc/nginx/vhost.d
+      - acme:/etc/acme.sh
       - html:/usr/share/nginx/html
     environment:
       - NGINX_PROXY_CONTAINER=nginx
@@ -130,6 +131,9 @@ volumes:
   vhost.d:
     external:
       name: danceschool_vhost.d
+  acme:
+    external:
+      name: danceschool_acme
   html:
     external:
       name: danceschool_html
