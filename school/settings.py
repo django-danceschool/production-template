@@ -430,6 +430,9 @@ if 'EMAIL_URL' in environ:
     EMAIL_USE_TLS = email_config.get('EMAIL_USE_TLS')
     EMAIL_USE_SSL = email_config.get('EMAIL_USE_SSL')
 
+DEFAULT_FROM_EMAIL = environ.get('DEFAULT_FROM_EMAIL', 'webmaster@localhost')
+SERVER_EMAIL = environ.get('SERVER_EMAIL', DEFAULT_FROM_EMAIL)
+
 # Use Redis for caching
 CACHES = {
     "default": {
