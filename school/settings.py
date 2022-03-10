@@ -172,6 +172,7 @@ INSTALLED_APPS = [
     # Autocomplete overrides some admin features so it goes here (above admin)
     'dal',
     'dal_select2',
+    'django_addanother',
 
     # This allows for custom date range filtering of financials, etc.
     'rangefilter',
