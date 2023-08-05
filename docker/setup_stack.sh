@@ -85,7 +85,7 @@ check_postgres_secrets () {
         if [ $POSTGRES_USER_EXISTS -ge 1 ] ; then
             docker secret rm postgres_user
         fi
-        if [ $POSTGRES_USER_EXISTS -ge 1 ] ; then
+        if [ $POSTGRES_PASSWORD_EXISTS -ge 1 ] ; then
             docker secret rm postgres_password
         fi
         if [ $POSTGRES_URL_EXISTS -ge 1 ] ; then
