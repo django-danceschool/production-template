@@ -1,6 +1,7 @@
 boto3>=1.4.7
 dj-database-url>=0.4.2
 dj-email-url>=0.0.10
+django-addanother
 django-danceschool>=0.9.0
 django-redis>=4.10.0
 django-storages>=1.6.5
